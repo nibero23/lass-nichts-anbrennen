@@ -97,8 +97,8 @@ const TITEL = [
 // Achtung: Auf GitHub Pages kann das jeder lesen.
 // ---------------------------------------------------------------------
 const CREDITS = [
-  "Ein Spiel von [Vorname] und [Vorname]",
-  "Klasse [Klasse], [Schule]",
+  "Ein Spiel von Niclas Rosenmüller und Marvin Sandtel",
+  "Klasse Eit25-2, BBS-Lingen TG",
   "Fotos und Texte: eigene Aufnahmen und eigene Texte",
   "Programmiert mit Unterstützung von Claude Code",
   "Beitrag zum JWSL-Kreativwettbewerb „Lass nichts anbrennen!“ 2026/27",
