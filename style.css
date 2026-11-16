@@ -1,0 +1,612 @@
+/* =====================================================================
+   style.css  –  DAS AUSSEHEN
+   =====================================================================
+   Ganz oben stehen alle Farben und die Schrift als „Variablen“.
+   Ändert ihr dort eine Farbe, ändert sie sich im ganzen Spiel.
+   Farben werden als Hex-Code geschrieben: # und sechs Zeichen.
+   ===================================================================== */
+
+:root {
+  /* ----- Grundfarben (Platzhalter – sucht euch eigene aus) ----- */
+  --hintergrund:        #f2f2f2;   /* Seitenhintergrund */
+  --flaeche:            #ffffff;   /* Kästen, Statusleiste, Antwort-Buttons */
+  --text:               #1f1f1f;
+  --text-leise:         #5c5c5c;   /* Uhrzeit, Credits */
+  --rand:               #c8c8c8;
+  --akzent:             #c0392b;   /* große Buttons, Endtitel */
+  --akzent-text:        #ffffff;   /* Schrift auf den großen Buttons */
+  --fokus:              #1a5fb4;   /* Rahmen bei Bedienung mit Tastatur */
+
+  /* ----- Feedback-Überschriften ----- */
+  --farbe-richtig:        #1e7d32;
+  --farbe-plausibel:      #b35c00;
+  --farbe-offensichtlich: #b3261e;
+
+  /* ----- Hitze-Balken: Farbverlauf von kalt nach heiß ----- */
+  --hitze-kalt:         #f5c400;
+  --hitze-heiss:        #d62400;
+  --balken-leer:        #dcdcdc;
+
+  /* ----- Brand-Bildschirm ----- */
+  --brand-hintergrund:  #2b0b06;
+  --brand-text:         #fff3e0;
+  --brand-glut:         rgba(255, 120, 0, 0.55);
+  --brand-titel:        #ffb74d;   /* „Dein Titel: Brandbeschleuniger“ */
+
+  /* ----- Fehlendes Foto ----- */
+  --platzhalter:        #c4c4c4;
+
+  /* ----- Schrift und Form ----- */
+  /* Nur Schriften, die schon auf dem Gerät sind – nichts aus dem Internet */
+  --schrift: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  --ecken: 12px;
+}
+
+
+/* =====================================================================
+   GRUNDLAGEN
+   ===================================================================== */
+
+* {
+  box-sizing: border-box;   /* Breite inklusive Innenabstand rechnen */
+}
+
+[hidden] {
+  display: none !important; /* Versteckt ist versteckt – immer */
+}
+
+body {
+  margin: 0;
+  background: var(--hintergrund);
+  color: var(--text);
+  font-family: var(--schrift);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+main {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 16px 16px 40px;
+}
+
+h1, h2, h3 {
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+  margin: 8px 0 4px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin: 4px 0 12px;
+}
+
+h3 {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-leise);
+  margin: 0 0 6px;
+}
+
+/* Überschriften bekommen beim Bildschirmwechsel den Fokus (für Screenreader),
+   sollen dabei aber keinen Rahmen zeigen */
+h1:focus,
+h2:focus {
+  outline: none;
+}
+
+/* Sichtbarer Rahmen, wenn man mit der Tastatur (Tab-Taste) bedient */
+:focus-visible {
+  outline: 3px solid var(--fokus);
+  outline-offset: 2px;
+}
+
+.bildschirm {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+
+/* =====================================================================
+   STATUSLEISTE MIT PUNKTEN UND HITZE-BALKEN
+   ===================================================================== */
+
+.statusleiste {
+  position: sticky;   /* bleibt beim Scrollen oben stehen */
+  top: 0;
+  z-index: 10;
+  background: var(--flaeche);
+  border-bottom: 1px solid var(--rand);
+}
+
+.statusleiste-innen {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.punkte strong,
+.hitze-zahl {
+  font-variant-numeric: tabular-nums;   /* Ziffern gleich breit, nichts wackelt */
+}
+
+.hitze {
+  flex: 1;   /* nimmt den restlichen Platz ein */
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.hitze-balken {
+  position: relative;
+  flex: 1;
+  height: 14px;
+  border-radius: 7px;
+  overflow: hidden;
+  background: var(--balken-leer);
+}
+
+.hitze-fuellung {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to right, var(--hitze-kalt), var(--hitze-heiss));
+  clip-path: inset(0 100% 0 0);         /* Start: alles abgeschnitten = 0 % */
+  transition: clip-path 0.6s ease;      /* weiche Bewegung, wenn sich die Hitze ändert */
+}
+
+.hitze-zahl {
+  min-width: 3.2em;
+  text-align: right;
+}
+
+
+/* =====================================================================
+   FOTOS UND PLATZHALTER
+   ===================================================================== */
+
+.foto {
+  position: relative;
+  aspect-ratio: 4 / 3;   /* Querformat 4:3, egal wie groß der Bildschirm ist */
+  margin: 0 0 16px;
+  border-radius: var(--ecken);
+  overflow: hidden;
+  background: var(--platzhalter);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* füllt den Rahmen, Überstehendes wird abgeschnitten */
+}
+
+.platzhalter-text {
+  display: none;
+  padding: 16px;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Foto fehlt: Bild ausblenden, Platzhalter-Text zeigen */
+.foto.fehlt img {
+  display: none;
+}
+
+.foto.fehlt .platzhalter-text {
+  display: block;
+}
+
+
+/* =====================================================================
+   SZENE
+   ===================================================================== */
+
+.kleingedruckt {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-leise);
+}
+
+.antworten {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+
+/* =====================================================================
+   BUTTONS
+   ===================================================================== */
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.antwort {
+  min-height: 52px;   /* groß genug für Finger auf dem Handy */
+  padding: 12px 16px;
+  text-align: left;
+  color: var(--text);
+  background: var(--flaeche);
+  border: 2px solid var(--rand);
+  border-radius: var(--ecken);
+}
+
+.haupt-button {
+  display: block;
+  width: 100%;
+  min-height: 52px;
+  margin-top: 24px;
+  padding: 12px 24px;
+  font-weight: 700;
+  color: var(--akzent-text);
+  background: var(--akzent);
+  border: none;
+  border-radius: var(--ecken);
+}
+
+/* Hover-Effekt nur bei Geräten mit Maus (auf dem Handy würde er „hängen bleiben“) */
+@media (hover: hover) {
+  .antwort:hover {
+    border-color: var(--akzent);
+  }
+  .haupt-button:hover {
+    filter: brightness(1.1);
+  }
+}
+
+
+/* =====================================================================
+   FEEDBACK
+   ===================================================================== */
+
+#feedback-ueberschrift {
+  font-size: 2rem;
+}
+
+/* Farbe der Überschrift je nach Antwortart (spiel.js setzt data-art) */
+#feedback[data-art="richtig"] #feedback-ueberschrift        { color: var(--farbe-richtig); }
+#feedback[data-art="plausibel"] #feedback-ueberschrift      { color: var(--farbe-plausibel); }
+#feedback[data-art="offensichtlich"] #feedback-ueberschrift { color: var(--farbe-offensichtlich); }
+
+.reaktion {
+  font-size: 1.15rem;
+}
+
+.ergebnis {
+  font-weight: 700;
+}
+
+.kasten {
+  margin-top: 16px;
+  padding: 16px;
+  background: var(--flaeche);
+  border-radius: var(--ecken);
+}
+
+.kasten p {
+  margin: 0;
+}
+
+
+/* =====================================================================
+   BRAND BRICHT AUS (bei 100 % Hitze)
+   Schritt 1: Der ganze Bildschirm geht in Flammen auf.
+   Schritt 2: Der Feedback-Bildschirm wird dunkel und glüht.
+   Alles nur mit CSS gezeichnet – keine fremden Grafiken.
+   ===================================================================== */
+
+/* ----- Schritt 1: Feuer über den ganzen Bildschirm ----- */
+
+/* Die Feuer-Ebene liegt über allem (position: fixed), ist aber normalerweise unsichtbar */
+.feuer {
+  --g: min(26vw, 22vh);   /* Grundgröße einer Flamme, passt sich dem Bildschirm an */
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  overflow: hidden;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Rote Glut hinter den Flammen: färbt den ganzen Bildschirm langsam ein,
+   damit auch zwischen den Flammen nichts Unverbranntes mehr zu sehen ist */
+.feuer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(255, 110, 0, 0.95), rgba(140, 25, 0, 0.9));
+  opacity: 0;
+}
+
+/* Eine Wand aus Glut: unten hellgelb, oben orange, an der Oberkante weich auslaufend.
+   Sie wartet unterhalb des Bildschirms (translateY 150 %). */
+.feuer-wand {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background: linear-gradient(to top, #fff3a0 0%, #ffc21a 25%, #ff9500 60%, #ff7a00 92%, rgba(255, 122, 0, 0) 100%);
+  transform: translateY(150%);
+}
+
+/* Die Flammen an der Oberkante der Wand: unten orange, Spitzen rot.
+   Jede Flamme ist ein Quadrat mit drei runden und einer spitzen Ecke.
+   Um 45° gedreht zeigt die spitze Ecke nach oben: fertig ist die Flamme.
+   scale(0.8, 1.8) macht sie schmaler und fast doppelt so hoch.
+   --groesse ist die Kantenlänge des Quadrats. */
+.feuer-wand span {
+  --groesse: var(--g);
+  position: absolute;
+  bottom: calc(100% + var(--groesse) * 0.37);   /* Fuß der Flamme taucht in die Wand ein */
+  width: var(--groesse);
+  aspect-ratio: 1;
+  border-radius: 50% 0 50% 50%;
+  background: radial-gradient(circle at 30% 70%, #ff9500 0 30%, #ff6a00 55%, #e62e00 75%, #b31a00);
+  transform: scale(0.8, 1.8) rotate(-45deg);
+  filter: blur(3px);         /* weiche Ränder wirken mehr wie Feuer */
+  animation: lodern 0.45s ease-in-out infinite alternate;
+}
+
+/* Jede zweite Flamme ist kleiner, heller und flackert schneller */
+.feuer-wand span:nth-child(even) {
+  --groesse: calc(var(--g) * 0.77);
+  background: radial-gradient(circle at 30% 70%, #ffb000 0 22%, #ff8a00 48%, #ff3d00 75%, #c41d00);
+  animation-duration: 0.38s;
+}
+
+/* Neun Flammen nebeneinander, leicht versetzt */
+.feuer-wand span:nth-child(1) { left: -8%; animation-delay: -0.10s; }
+.feuer-wand span:nth-child(2) { left: 4%;  animation-delay: -0.30s; }
+.feuer-wand span:nth-child(3) { left: 16%; animation-delay: -0.20s; }
+.feuer-wand span:nth-child(4) { left: 28%; animation-delay: -0.40s; }
+.feuer-wand span:nth-child(5) { left: 40%; animation-delay: -0.15s; }
+.feuer-wand span:nth-child(6) { left: 52%; animation-delay: -0.35s; }
+.feuer-wand span:nth-child(7) { left: 64%; animation-delay: -0.25s; }
+.feuer-wand span:nth-child(8) { left: 76%; animation-delay: -0.05s; }
+.feuer-wand span:nth-child(9) { left: 86%; animation-delay: -0.32s; }
+
+/* spiel.js gibt der ganzen Seite (body) die Klasse „brennt“.
+   Dann startet alles gleichzeitig: */
+body.brennt .feuer {
+  visibility: visible;                                   /* Feuer einblenden */
+}
+body.brennt .feuer::before {
+  animation: glut-kommt 2.2s ease-in forwards;           /* Bildschirm glüht auf */
+}
+body.brennt .feuer-wand {
+  animation: feuer-steigt 2.2s ease-in forwards;         /* Feuer steigt hoch */
+}
+body.brennt .statusleiste {
+  animation: verkohlen 2.2s ease-in forwards;            /* alles wird schwarz … */
+}
+body.brennt main {
+  animation: verkohlen 2.2s ease-in forwards,
+             wackeln 0.12s linear infinite;              /* … und zittert */
+}
+
+@keyframes glut-kommt {
+  to { opacity: 1; }
+}
+
+/* Die Wand steigt so weit, dass die Flammenspitzen genau den oberen Rand
+   erreichen: Darunter steht alles in Flammen, die Spitzen bleiben sichtbar. */
+@keyframes feuer-steigt {
+  from { transform: translateY(150%); }
+  to   { transform: translateY(calc(var(--g) * 2)); }
+}
+
+@keyframes lodern {
+  from { transform: scale(0.8, 1.8) rotate(-45deg) scale(0.92); }
+  to   { transform: scale(0.8, 1.95) rotate(-45deg) scale(1.08); }
+}
+
+@keyframes verkohlen {
+  to { filter: brightness(0.3) sepia(1) saturate(3); }
+}
+
+@keyframes wackeln {
+  0%, 100% { transform: translate(0, 0); }
+  25%      { transform: translate(-3px, 2px); }
+  75%      { transform: translate(3px, -2px); }
+}
+
+/* Gesperrte Antworten, während es brennt */
+.antwort:disabled {
+  cursor: default;
+  opacity: 0.6;
+}
+
+
+/* ----- Schritt 2: Feedback wird zu „Brand bricht aus!“ ----- */
+
+#feedback.brennt {
+  position: relative;
+  overflow: hidden;
+  padding: 32px 20px;
+  color: var(--brand-text);
+  background: var(--brand-hintergrund);
+  border-radius: var(--ecken);
+  animation: glut-erlischt 1s ease-out;   /* startet orange, wird dunkel */
+}
+
+@keyframes glut-erlischt {
+  from { background-color: #ff6a00; }
+}
+
+#feedback.brennt #feedback-ueberschrift {
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  color: var(--brand-text);
+}
+
+.brandtitel {
+  margin-top: 0;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--brand-titel);
+}
+
+.brandtext {
+  font-size: 1.1rem;
+}
+
+/* Die weißen Kästen behalten dunkle Schrift */
+#feedback.brennt .kasten {
+  color: var(--text);
+}
+
+#feedback.brennt .haupt-button {
+  color: var(--brand-hintergrund);
+  background: var(--brand-text);
+}
+
+/* Glut von unten – nur sichtbar, wenn es brennt */
+.flammen {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70%;
+  background: radial-gradient(ellipse at 50% 100%, var(--brand-glut), transparent 70%);
+  transform-origin: bottom;
+  animation: flackern 0.8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+
+#feedback:not(.brennt) .flammen {
+  display: none;
+}
+
+/* Text, Kästen und Button liegen über der Glut */
+#feedback.brennt > *:not(.flammen) {
+  position: relative;
+}
+
+@keyframes flackern {
+  from { opacity: 0.6; transform: scaleY(0.9); }
+  to   { opacity: 1;   transform: scaleY(1.1); }
+}
+
+
+/* =====================================================================
+   ENDBILDSCHIRM
+   ===================================================================== */
+
+.ende-punkte {
+  font-size: 1.25rem;
+  margin-bottom: 0;
+}
+
+.ende-titel {
+  margin-top: 4px;
+  font-size: 2.2rem;
+  font-weight: 800;
+  line-height: 1.2;
+  color: var(--akzent);
+}
+
+.credits {
+  margin-top: 40px;
+  padding-top: 16px;
+  font-size: 0.9rem;
+  color: var(--text-leise);
+  border-top: 1px solid var(--rand);
+}
+
+.credits ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+
+/* =====================================================================
+   FEHLERHINWEIS (bei Tippfehlern in szenen.js)
+   ===================================================================== */
+
+.fehler {
+  padding: 16px 20px;
+  color: #611a15;
+  background: #fdecea;
+  border: 2px solid #b3261e;
+  border-radius: var(--ecken);
+}
+
+.fehler h2 {
+  margin-top: 0;
+}
+
+
+/* =====================================================================
+   GRÖSSERE BILDSCHIRME (PC, Tablet quer)
+   Ab 600 px Breite: große Buttons nicht mehr über die ganze Breite.
+   Ab 900 px Breite: Szene zweispaltig, Foto links, Text rechts.
+   ===================================================================== */
+
+@media (min-width: 600px) {
+  .haupt-button {
+    width: auto;
+    min-width: 240px;
+  }
+}
+
+@media (min-width: 900px) {
+  #szene {
+    max-width: none;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  #szene .foto {
+    margin: 0;
+  }
+}
+
+
+/* =====================================================================
+   WENIGER BEWEGUNG
+   Wer in seinem Gerät „Animationen reduzieren“ eingestellt hat,
+   bekommt kein Flackern, kein Wackeln und keine Balken-Animation.
+   Das Feuer steht dann sofort still über dem ganzen Bildschirm.
+   ===================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  .flammen,
+  .feuer-wand span,
+  #feedback.brennt {
+    animation: none;
+  }
+  body.brennt .feuer-wand {
+    animation: none;
+    transform: translateY(calc(var(--g) * 2));
+  }
+  body.brennt .feuer::before {
+    animation: none;
+    opacity: 1;
+  }
+  body.brennt main,
+  body.brennt .statusleiste {
+    animation: none;
+    filter: brightness(0.3) sepia(1) saturate(3);
+  }
+  .hitze-fuellung {
+    transition: none;
+  }
+}

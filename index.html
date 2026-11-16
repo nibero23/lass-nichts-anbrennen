@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <!-- Sorgt dafür, dass die Seite auf dem Handy nicht winzig dargestellt wird -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lass nichts anbrennen</title>
+  <!-- Kein Symbol im Browser-Tab: verhindert eine Fehlermeldung, weil keins da ist -->
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =================================================================
+       STATUSLEISTE: Punkte und Hitze-Balken, nur während des Spiels
+       ================================================================= -->
+  <header id="statusleiste" class="statusleiste" hidden>
+    <div class="statusleiste-innen">
+      <div class="punkte">Punkte <strong id="punkte-anzeige">0</strong></div>
+      <div class="hitze">
+        <span>Hitze</span>
+        <!-- Der Balken ist grau. Darüber liegt ein Farbverlauf von Gelb nach Rot,
+             von dem nur so viel zu sehen ist, wie es heiß ist. -->
+        <div id="hitze-balken" class="hitze-balken" role="progressbar"
+             aria-label="Hitze" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <div id="hitze-fuellung" class="hitze-fuellung"></div>
+        </div>
+        <strong id="hitze-anzeige" class="hitze-zahl">0 %</strong>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Erscheint nur, wenn in szenen.js ein Tippfehler ist -->
+    <div id="fehler" class="fehler" role="alert" hidden></div>
+
+    <!-- Es ist immer nur einer der folgenden vier Bildschirme sichtbar.
+         spiel.js schaltet zwischen ihnen um. Die Texte kommen aus szenen.js. -->
+
+    <!-- ===== 1. STARTBILDSCHIRM ===== -->
+    <section id="start" class="bildschirm" hidden>
+      <figure id="start-foto" class="foto">
+        <img alt="">
+        <span class="platzhalter-text"></span>
+      </figure>
+      <h1 id="start-titel" tabindex="-1"></h1>
+      <p id="start-untertitel" class="untertitel"></p>
+      <p id="start-einleitung"></p>
+      <p id="start-anleitung"></p>
+      <button id="start-button" class="haupt-button" type="button"></button>
+    </section>
+
+    <!-- ===== 2. SZENE: Foto, Situation, Antwort-Buttons ===== -->
+    <section id="szene" class="bildschirm" hidden>
+      <figure id="szene-foto" class="foto">
+        <img alt="">
+        <span class="platzhalter-text"></span>
+      </figure>
+      <div class="szene-text">
+        <p id="szene-zeit" class="kleingedruckt"></p>
+        <h2 id="szene-titel" tabindex="-1"></h2>
+        <p id="szene-situation"></p>
+        <div id="antworten" class="antworten"></div>
+      </div>
+    </section>
+
+    <!-- ===== 3. FEEDBACK nach jeder Antwort =====
+         Bei 100 % Hitze wird daraus der Bildschirm „Brand bricht aus!“ -->
+    <section id="feedback" class="bildschirm" hidden>
+      <div class="flammen" aria-hidden="true"></div>
+      <h2 id="feedback-ueberschrift" tabindex="-1"></h2>
+      <p id="feedback-brandtitel" class="brandtitel"></p>
+      <p id="feedback-brandtext" class="brandtext"></p>
+      <p id="feedback-reaktion" class="reaktion"></p>
+      <p id="feedback-ergebnis" class="ergebnis"></p>
+      <div id="feedback-richtig" class="kasten">
+        <h3 id="text-richtig-waere"></h3>
+        <p id="feedback-richtige-antwort"></p>
+      </div>
+      <div class="kasten">
+        <h3 id="text-warum"></h3>
+        <p id="feedback-erklaerung"></p>
+      </div>
+      <button id="feedback-weiter" class="haupt-button" type="button"></button>
+    </section>
+
+    <!-- ===== 4. ENDBILDSCHIRM ===== -->
+    <section id="ende" class="bildschirm" hidden>
+      <h2 id="ende-ueberschrift" tabindex="-1"></h2>
+      <p id="ende-punkte" class="ende-punkte"></p>
+      <p id="ende-titel" class="ende-titel"></p>
+      <button id="nochmal-button" class="haupt-button" type="button"></button>
+      <footer class="credits">
+        <ul id="credits-liste"></ul>
+      </footer>
+    </section>
+
+    <noscript>
+      <p class="fehler">Dieses Spiel braucht JavaScript. Bitte im Browser aktivieren.</p>
+    </noscript>
+  </main>
+
+  <!-- Feuer, das bei 100 % Hitze von unten über den ganzen Bildschirm zieht.
+       Eine Wand aus Glut mit neun Flammen an der Oberkante, nur mit CSS gezeichnet. -->
+  <div class="feuer" aria-hidden="true">
+    <div class="feuer-wand">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span>
+    </div>
+  </div>
+
+  <!-- Reihenfolge ist wichtig:
+       1. pruefung.js passt auf Tippfehler in szenen.js auf
+       2. szenen.js enthält alle Texte
+       3. spiel.js startet das Spiel -->
+  <script src="pruefung.js"></script>
+  <script src="szenen.js"></script>
+  <script src="spiel.js"></script>
+</body>
+</html>

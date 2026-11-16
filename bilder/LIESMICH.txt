@@ -1,0 +1,18 @@
+Hier kommen eure eigenen Fotos hinein.
+
+Zurzeit liegen hier BEISPIELBILDER (gezeichnet, nur zum Testen).
+Eigene Fotos unter genau demselben Namen speichern und die
+Beispielbilder damit überschreiben. Vor der Abgabe darf keins übrig sein.
+
+  titel.jpg    Startbildschirm (optional)
+  szene1.jpg   Steckdosenleisten unter dem Schreibtisch
+  szene2.jpg   Kartons vor der Notausgangstür
+  szene3.jpg   Tür mit Keil offen geklemmt
+  szene4.jpg   Powerbank
+  szene5.jpg   Pfanne auf dem Herd
+  szene6.jpg   Tür zum Abstellraum
+  szene7.jpg   Person mit Handy am Ohr
+  szene8.jpg   Grünes Rettungszeichen, Person zeigt zur Treppe
+
+Querformat 4:3, Dateinamen genau so und kleingeschrieben (.jpg, nicht .JPG).
+Vorher auf ca. 1600 Pixel Breite verkleinern.
