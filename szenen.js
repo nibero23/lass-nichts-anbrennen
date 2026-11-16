@@ -72,10 +72,11 @@ const ZEIT = {
 // Wie ihr die Online-Bestenliste einrichtet, steht in README.md.
 // ---------------------------------------------------------------------
 const BESTENLISTE = {
-  // Adresse eurer Firebase-Datenbank, zum Beispiel:
-  // "https://lass-nichts-anbrennen-default-rtdb.europe-west1.firebasedatabase.app"
+  // Adresse eurer Firebase-Datenbank. Sie steht in der Firebase-Konsole
+  // unter „Realtime Database“ → „Daten“ ganz oben (endet auf .firebasedatabase.app).
+  // Nicht die Adresse aus der Adresszeile des Browsers nehmen!
   // Leer lassen ("") = die Bestenliste wird nur auf diesem Gerät gespeichert.
-  adresse: "",
+  adresse: "https://feuergame-b8f2c-default-rtdb.europe-west1.firebasedatabase.app",
 
   anzahl: 10,      // so viele Plätze werden angezeigt
 };

@@ -65,7 +65,9 @@ Solange in `szenen.js` bei `BESTENLISTE` keine `adresse` steht, speichert jedes 
 1. Auf https://console.firebase.google.com mit einem Google-Konto anmelden und ein neues Projekt anlegen, z. B. „lass-nichts-anbrennen“. Google Analytics wird nicht gebraucht.
 2. Im Menü links **Realtime Database** öffnen und **Datenbank erstellen** wählen. Als Standort **Belgien (europe-west1)** nehmen, damit die Daten in der EU liegen. Im **gesperrten Modus** starten.
 3. Im Reiter **Regeln** alles löschen, den Inhalt von `firebase-regeln.json` hineinkopieren und **Veröffentlichen**.
-4. Im Reiter **Daten** steht oben die Adresse, z. B. `https://lass-nichts-anbrennen-default-rtdb.europe-west1.firebasedatabase.app`. Diese in `szenen.js` bei `BESTENLISTE` → `adresse` eintragen.
+4. Im Reiter **Daten** steht oben die Adresse, z. B. `https://lass-nichts-anbrennen-default-rtdb.europe-west1.firebasedatabase.app`. Diese in `szenen.js` bei `BESTENLISTE` in der Zeile `adresse: "…",` zwischen die Anführungszeichen eintragen. Achtung: nicht die Adresse aus der Adresszeile des Browsers (`console.firebase.google.com/…`), die funktioniert nicht.
+
+Eingerichtet ist die Datenbank `https://feuergame-b8f2c-default-rtdb.europe-west1.firebasedatabase.app` (Projekt `feuergame-b8f2c`, Standort Belgien).
 5. Einmal durchspielen und eintragen. Der Eintrag erscheint dann in Firebase unter **Daten**.
 
 Was die Regeln erlauben: Jeder darf die Liste lesen und neue Einträge hinzufügen, aber keine fremden Einträge ändern oder löschen. Namen dürfen höchstens 20 Zeichen lang sein, Punkte höchstens 200 (bei mehr Szenen in `firebase-regeln.json` erhöhen).
