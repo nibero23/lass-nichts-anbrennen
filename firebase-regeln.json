@@ -1,0 +1,19 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "bestenliste": {
+      ".read": true,
+      ".indexOn": ["punkte"],
+      "$eintrag": {
+        ".write": "!data.exists()",
+        ".validate": "newData.hasChildren(['name', 'punkte', 'sekunden', 'datum'])",
+        "name":     { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 20" },
+        "punkte":   { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 200" },
+        "sekunden": { ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 3600" },
+        "datum":    { ".validate": "newData.val() === now" },
+        "$anderes": { ".validate": false }
+      }
+    }
+  }
+}

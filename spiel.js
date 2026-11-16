@@ -2,13 +2,15 @@
    spiel.js  –  DER SPIELABLAUF
    =====================================================================
    Hier stehen keine Texte (die sind in szenen.js), sondern nur die Regeln:
-   Punkte zählen, Hitze-Balken füllen, Bildschirme wechseln.
+   Punkte zählen, Zeit messen, Hitze-Balken füllen, Bildschirme wechseln.
 
    Ablauf eines Spiels:
-     Start → Szene → Feedback → nächste Szene → … → Ende → „Nochmal spielen“
+     Start → Szene (Countdown läuft) → Feedback → nächste Szene → …
+           → Ende mit Bestenliste → „Nochmal spielen“
 
    Erreicht die Hitze 100 %:
-     ganzer Bildschirm geht in Flammen auf → „Brand bricht aus!“ → alles von vorne
+     Feueralarm + ganzer Bildschirm geht in Flammen auf
+     → „Brand bricht aus!“ → alles von vorne
    ===================================================================== */
 
 "use strict";
@@ -16,15 +18,23 @@
 
 // ---------------------------------------------------------------------
 // 1. SPIELSTAND
-//    Diese drei Werte merken sich, wo der Spieler gerade steht.
+//    Diese Werte merken sich, wo der Spieler gerade steht.
 // ---------------------------------------------------------------------
-let punkte = 0;        // gesammelte Punkte
-let hitze = 0;         // Hitze-Balken in Prozent (0 bis 100)
-let szenenIndex = 0;   // welche Szene gerade läuft (0 = erste Szene)
+let punkte = 0;          // gesammelte Punkte
+let hitze = 0;           // Hitze-Balken in Prozent (0 bis 100)
+let szenenIndex = 0;     // welche Szene gerade läuft (0 = erste Szene)
+let gesamtSekunden = 0;  // gebrauchte Zeit für alle Szenen (für die Bestenliste)
+
+// Countdown der aktuellen Szene
+let szenenStart = 0;     // Zeitpunkt, an dem die Szene erschienen ist
+let countdown = null;    // Nummer des laufenden Countdowns (zum Anhalten)
 
 // So lange brennt der Bildschirm, bevor „Brand bricht aus!“ erscheint (in Millisekunden).
 // Passt zur Animation „feuer-steigt“ in style.css (2,2 Sekunden) plus kurze Pause.
 const BRENNDAUER = 2600;
+
+// So lange heult der Feueralarm insgesamt (in Sekunden)
+const ALARMDAUER = 7;
 
 
 // Kurzform: holt ein Element aus index.html über seine id
@@ -73,7 +83,7 @@ function aktualisiereStatus() {
 
 
 // ---------------------------------------------------------------------
-// 4. FOTO ANZEIGEN
+// 4. BILD ANZEIGEN
 //    Fehlt die Datei, erscheint ein grauer Platzhalter mit dem Dateinamen.
 //    Ist gar kein Pfad eingetragen (""), wird der Rahmen ausgeblendet.
 // ---------------------------------------------------------------------
@@ -88,15 +98,15 @@ function zeigeFoto(rahmenId, pfad, beschreibung) {
 
   rahmen.hidden = false;
   rahmen.classList.remove("fehlt");
-  rahmen.querySelector(".platzhalter-text").textContent = "Foto fehlt: " + pfad;
+  rahmen.querySelector(".platzhalter-text").textContent = "Bild fehlt: " + pfad;
   bild.alt = beschreibung;
 
-  // Kann das Foto nicht geladen werden, schaltet style.css auf den Platzhalter um
+  // Kann das Bild nicht geladen werden, schaltet style.css auf den Platzhalter um
   bild.onerror = function () {
     rahmen.classList.add("fehlt");
   };
 
-  bild.removeAttribute("src");   // altes Foto sofort entfernen
+  bild.removeAttribute("src");   // altes Bild sofort entfernen
   bild.src = pfad;
 }
 
@@ -108,13 +118,40 @@ function zeigeText(id, text) {
 }
 
 
+// Mischt eine Liste (Fisher-Yates-Verfahren): jede Reihenfolge ist gleich
+// wahrscheinlich. So kann sich niemand „B, C, A …“ merken.
+function mische(liste) {
+  const kopie = liste.slice();
+  for (let i = kopie.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const tausch = kopie[i];
+    kopie[i] = kopie[j];
+    kopie[j] = tausch;
+  }
+  return kopie;
+}
+
+
+// Merkt sich im Browser, dass einmal zu Ende gespielt wurde.
+// Erst dann zeigt info.html die Lösungen.
+function merkeGespielt() {
+  try {
+    localStorage.setItem("lna-gespielt", "ja");
+  } catch (fehler) {
+    // Speichern nicht erlaubt: info.html ist dann ohnehin frei
+  }
+}
+
+
 // ---------------------------------------------------------------------
 // 5. SPIEL STARTEN (auch für „Nochmal spielen“)
 // ---------------------------------------------------------------------
 function starteSpiel() {
+  stoppeAlarm();
   punkte = 0;
   hitze = 0;
   szenenIndex = 0;
+  gesamtSekunden = 0;
   aktualisiereStatus();
   zeigeSzene();
 }
@@ -128,7 +165,7 @@ function zeigeSzene() {
 
   zeigeFoto("szene-foto", szene.bild, szene.titel);
 
-  // z. B. „08:00 Uhr · Szene 1 von 8“
+  // z. B. „08:00 Uhr · Szene 1 von 13“
   let zeile = "Szene " + (szenenIndex + 1) + " von " + SZENEN.length;
   if (szene.uhrzeit) {
     zeile = szene.uhrzeit + " Uhr · " + zeile;
@@ -137,10 +174,10 @@ function zeigeSzene() {
   element("szene-titel").textContent = szene.titel;
   element("szene-situation").textContent = szene.situation;
 
-  // Für jede Antwort einen Button bauen
+  // Für jede Antwort einen Button bauen – in zufälliger Reihenfolge
   const liste = element("antworten");
   liste.replaceChildren();               // Buttons der letzten Szene entfernen
-  for (const antwort of szene.antworten) {
+  for (const antwort of mische(szene.antworten)) {
     const button = document.createElement("button");
     button.type = "button";
     button.className = "antwort";
@@ -151,7 +188,7 @@ function zeigeSzene() {
     liste.appendChild(button);
   }
 
-  // Foto der nächsten Szene schon im Hintergrund laden,
+  // Bild der nächsten Szene schon im Hintergrund laden,
   // damit es später ohne Wartezeit erscheint
   const naechste = SZENEN[szenenIndex + 1];
   if (naechste && naechste.bild) {
@@ -159,28 +196,91 @@ function zeigeSzene() {
   }
 
   zeigeBildschirm("szene");
+  starteCountdown();
 }
 
 
 // ---------------------------------------------------------------------
-// 7. DER SPIELER HAT GEANTWORTET
-//    Punkte und Hitze verrechnen, dann das Feedback zeigen.
+// 7. COUNTDOWN
+//    Alle 0,2 Sekunden wird die Restzeit neu berechnet und angezeigt.
+// ---------------------------------------------------------------------
+function starteCountdown() {
+  stoppeCountdown();
+  szenenStart = performance.now();     // genaue Uhr des Browsers in Millisekunden
+
+  element("zeit").hidden = !ZEIT.sekunden;
+  if (!ZEIT.sekunden) return;          // 0 = kein Zeitlimit
+
+  aktualisiereCountdown();
+  countdown = setInterval(aktualisiereCountdown, 200);
+}
+
+function stoppeCountdown() {
+  clearInterval(countdown);
+  countdown = null;
+}
+
+// Wie viele Sekunden seit Beginn der Szene vergangen sind
+function vergangeneSekunden() {
+  return (performance.now() - szenenStart) / 1000;
+}
+
+// Wie viele Sekunden noch übrig sind (nie weniger als 0)
+function restSekunden() {
+  return Math.max(0, ZEIT.sekunden - vergangeneSekunden());
+}
+
+function aktualisiereCountdown() {
+  const rest = restSekunden();
+  element("zeit-anzeige").textContent = Math.ceil(rest) + " s";
+  element("zeit-fuellung").style.width = (rest / ZEIT.sekunden * 100) + "%";
+  element("zeit").classList.toggle("knapp", rest <= 5);   // die letzten 5 Sekunden: rot
+
+  if (rest <= 0) {
+    zeitAbgelaufen();
+  }
+}
+
+
+// ---------------------------------------------------------------------
+// 8. DER SPIELER HAT GEANTWORTET – ODER DIE ZEIT IST ABGELAUFEN
 // ---------------------------------------------------------------------
 function waehleAntwort(antwort) {
-  const regel = ANTWORTARTEN[antwort.art];   // z. B. { punkte: 0, hitze: 20, … }
+  const regel = ANTWORTARTEN[antwort.art];   // z. B. { punkte: 10, hitze: 0, … }
 
-  punkte = punkte + regel.punkte;
+  // Zeitbonus nur für richtige Antworten: je ZEIT.bonusAlle übrige Sekunden 1 Punkt,
+  // auf ganze Punkte gerundet (24,9 übrige Sekunden ergeben also 5 Punkte)
+  let bonus = 0;
+  if (antwort.art === "richtig" && ZEIT.sekunden) {
+    bonus = Math.round(restSekunden() / ZEIT.bonusAlle);
+  }
+
+  verrechne(antwort, regel, bonus);
+}
+
+function zeitAbgelaufen() {
+  // Die Zeit zählt wie eine eigene, falsche „Antwort“
+  const zuSpaet = { art: "zuSpaet", reaktion: ZEIT.zuSpaet.reaktion };
+  verrechne(zuSpaet, ZEIT.zuSpaet, 0);
+}
+
+// Punkte, Zeit und Hitze verrechnen, dann das Feedback zeigen
+function verrechne(antwort, regel, bonus) {
+  stoppeCountdown();
+  gesamtSekunden = gesamtSekunden + (ZEIT.sekunden ? Math.min(vergangeneSekunden(), ZEIT.sekunden) : vergangeneSekunden());
+
+  punkte = punkte + regel.punkte + bonus;
   hitze = Math.min(hitze + regel.hitze, 100);   // nie mehr als 100 %
-
   aktualisiereStatus();
 
   if (hitze >= 100) {
-    // Erst brennt der ganze Bildschirm, danach kommt „Brand bricht aus!“
+    // Erst Alarm und Flammen, danach kommt „Brand bricht aus!“
+    starteAlarm(ALARMDAUER);
     lasseBildschirmBrennen(function () {
-      zeigeFeedback(antwort, regel);
+      zeigeFeedback(antwort, regel, bonus);
     });
   } else {
-    zeigeFeedback(antwort, regel);
+    zeigeFeedback(antwort, regel, bonus);
   }
 }
 
@@ -205,9 +305,9 @@ function lasseBildschirmBrennen(danach) {
 
 
 // ---------------------------------------------------------------------
-// 8. FEEDBACK ANZEIGEN
+// 9. FEEDBACK ANZEIGEN
 // ---------------------------------------------------------------------
-function zeigeFeedback(antwort, regel) {
+function zeigeFeedback(antwort, regel, bonus) {
   const szene = SZENEN[szenenIndex];
 
   const feedback = element("feedback");
@@ -215,25 +315,29 @@ function zeigeFeedback(antwort, regel) {
 
   if (hitze >= 100) {
     // Hitze voll: aus dem Feedback wird „Brand bricht aus!“
+    merkeGespielt();
     feedback.classList.add("brennt");
     element("feedback-ueberschrift").textContent = TEXTE.brandUeberschrift;
     zeigeText("feedback-brandtitel", TEXTE.brandTitel);
     zeigeText("feedback-brandtext", TEXTE.brandText);
     element("feedback-weiter").textContent = TEXTE.nochmalButton;
+    zeigeText("feedback-info-link", TEXTE.infoLink);
   } else {
     feedback.classList.remove("brennt");
     element("feedback-ueberschrift").textContent = regel.ueberschrift;   // „Richtig!“ …
     zeigeText("feedback-brandtitel", "");
     zeigeText("feedback-brandtext", "");
     element("feedback-weiter").textContent = TEXTE.weiterButton;
+    zeigeText("feedback-info-link", "");
   }
 
   // Eigene Reaktion auf genau diese Antwort (nur wenn eingetragen)
   zeigeText("feedback-reaktion", antwort.reaktion);
 
-  // Was hat die Antwort gebracht? z. B. „+10 Punkte“ oder „Hitze +20 %“
+  // Was hat die Antwort gebracht? z. B. „+10 Punkte · +3 Zeitbonus“ oder „Hitze +20 %“
   const ergebnis = [];
   if (regel.punkte) ergebnis.push("+" + regel.punkte + " Punkte");
+  if (bonus)        ergebnis.push("+" + bonus + " " + TEXTE.zeitbonus);
   if (regel.hitze)  ergebnis.push("Hitze +" + regel.hitze + " %");
   zeigeText("feedback-ergebnis", ergebnis.join(" · "));
 
@@ -253,7 +357,7 @@ function zeigeFeedback(antwort, regel) {
 // Klick auf den Button im Feedback
 function weiterNachFeedback() {
   if (hitze >= 100) {
-    starteSpiel();      // Brand: alles von vorne
+    starteSpiel();      // Brand: alles von vorne (stoppt auch den Alarm)
   } else {
     naechsteSzene();
   }
@@ -271,14 +375,19 @@ function naechsteSzene() {
 
 
 // ---------------------------------------------------------------------
-// 9. ENDBILDSCHIRM
+// 10. ENDBILDSCHIRM
 // ---------------------------------------------------------------------
 function zeigeEnde() {
-  // Höchstpunktzahl: jede Szene hat genau eine richtige Antwort
-  const maximum = SZENEN.length * ANTWORTARTEN.richtig.punkte;
+  merkeGespielt();
+
+  // Höchstpunktzahl: jede Szene hat genau eine richtige Antwort,
+  // dazu der größtmögliche Zeitbonus
+  const maxBonus = ZEIT.sekunden ? Math.round(ZEIT.sekunden / ZEIT.bonusAlle) : 0;
+  const maximum = SZENEN.length * (ANTWORTARTEN.richtig.punkte + maxBonus);
 
   element("ende-punkte").textContent = punkte + " von " + maximum + " Punkten";
   element("ende-titel").textContent = findeTitel(punkte);
+  bereiteBestenlisteVor(punkte, gesamtSekunden);   // bestenliste.js
   zeigeBildschirm("ende");
 }
 
@@ -299,7 +408,7 @@ function findeTitel(punktzahl) {
 
 
 // ---------------------------------------------------------------------
-// 10. BEIM LADEN DER SEITE
+// 11. BEIM LADEN DER SEITE
 //     Feste Texte aus szenen.js eintragen und die Buttons verbinden.
 // ---------------------------------------------------------------------
 function initialisiere() {
@@ -318,6 +427,7 @@ function initialisiere() {
   element("text-warum").textContent = TEXTE.warum;
   element("ende-ueberschrift").textContent = TEXTE.endeUeberschrift;
   element("nochmal-button").textContent = TEXTE.nochmalButton;
+  zeigeText("ende-info-link", TEXTE.infoLink);   // Info-Seite erst nach dem Spielen
 
   // Credits: jede Zeile als eigener Listenpunkt
   for (const zeile of CREDITS) {
@@ -326,10 +436,14 @@ function initialisiere() {
     element("credits-liste").appendChild(punkt);
   }
 
+  zeigeTonKnopf();              // ton.js
+  initialisiereBestenliste();   // bestenliste.js
+
   // Was passiert bei welchem Klick?
   element("start-button").addEventListener("click", starteSpiel);
   element("feedback-weiter").addEventListener("click", weiterNachFeedback);
   element("nochmal-button").addEventListener("click", starteSpiel);
+  element("ton-button").addEventListener("click", schalteTon);
 
   zeigeBildschirm("start");
 }

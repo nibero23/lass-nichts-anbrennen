@@ -1,18 +1,26 @@
-Hier kommen eure eigenen Fotos hinein.
+In diesem Ordner liegen die Bilder des Spiels.
 
-Zurzeit liegen hier BEISPIELBILDER (gezeichnet, nur zum Testen).
-Eigene Fotos unter genau demselben Namen speichern und die
-Beispielbilder damit überschreiben. Vor der Abgabe darf keins übrig sein.
+Zurzeit sind das ANIMATIONEN (.svg): Zeichnungen aus Code, die sich bewegen.
+Sie wurden mit Claude Code erstellt. Das muss in der Beitragsbeschreibung
+(Feld 5) angegeben werden.
 
-  titel.jpg    Startbildschirm (optional)
-  szene1.jpg   Steckdosenleisten unter dem Schreibtisch
-  szene2.jpg   Kartons vor der Notausgangstür
-  szene3.jpg   Tür mit Keil offen geklemmt
-  szene4.jpg   Powerbank
-  szene5.jpg   Pfanne auf dem Herd
-  szene6.jpg   Tür zum Abstellraum
-  szene7.jpg   Person mit Handy am Ohr
-  szene8.jpg   Grünes Rettungszeichen, Person zeigt zur Treppe
+  titel.svg     Startbildschirm
+  szene1.svg    Ankunft mit dem E-Bike im Treppenhaus
+  szene2.svg    Steckdosenleisten unter dem Schreibtisch
+  szene3.svg    Flucht- und Rettungsplan
+  szene4.svg    Kartons vor der Notausgangstür
+  szene5.svg    Brandschutztür mit Keil
+  szene6.svg    Aufgeblähte Powerbank
+  szene7.svg    Brennender Papierkorb im Kopierraum
+  szene8.svg    Brennende Pfanne in der Kaffeeküche
+  szene9.svg    Brandwunde an der Hand
+  szene10.svg   Rauch unter der Tür zum Abstellraum
+  szene11.svg   Notruf 112
+  szene12.svg   Feueralarm
+  szene13.svg   Sammelstelle, eine Kollegin fehlt
 
-Querformat 4:3, Dateinamen genau so und kleingeschrieben (.jpg, nicht .JPG).
+Eigenes Foto statt Animation?
+Foto im Querformat 4:3 hier speichern (z. B. szene2.jpg, alles klein,
+Endung .jpg) und in szenen.js bei der Szene den Eintrag „bild“ ändern:
+  bild: "bilder/szene2.jpg",
 Vorher auf ca. 1600 Pixel Breite verkleinern.

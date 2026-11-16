@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" font-family="Segoe UI, Arial, sans-serif">
+<!-- Animierte Szene für „Lass nichts anbrennen“: gezeichnet mit Code (SVG + CSS-Animation), keine fremde Grafik -->
+<style>
+.flackern { transform-box: fill-box; transform-origin: 50% 100%; animation: flackern .45s ease-in-out infinite alternate; }
+@keyframes flackern { from { transform: scale(.92,.86); } to { transform: scale(1.06,1.12); } }
+.rauch { transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: rauch 3s ease-out infinite; }
+@keyframes rauch { 0% { transform: translateY(0) scale(.6); opacity: 0; } 20% { opacity: .55; } 100% { transform: translateY(-170px) scale(1.7); opacity: 0; } }
+.dampf { animation: dampf 2.4s ease-in-out infinite; }
+@keyframes dampf { 0% { transform: translateY(10px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }
+.blinken { animation: blinken 1s steps(1) infinite; }
+@keyframes blinken { 50% { opacity: .12; } }
+.gluehen { animation: gluehen 1.4s ease-in-out infinite alternate; }
+@keyframes gluehen { from { opacity: .3; } to { opacity: 1; } }
+.pulsieren { transform-box: fill-box; transform-origin: center; animation: pulsieren 1s ease-in-out infinite alternate; }
+@keyframes pulsieren { from { transform: scale(1); } to { transform: scale(1.14); } }
+.welle { transform-box: fill-box; transform-origin: center; animation: welle 1.6s ease-out infinite; }
+@keyframes welle { from { transform: scale(.5); opacity: .9; } to { transform: scale(2.4); opacity: 0; } }
+.laufweg { animation: laufweg 1s linear infinite; }
+@keyframes laufweg { to { stroke-dashoffset: -60; } }
+.wackeln { transform-box: fill-box; transform-origin: 50% 100%; animation: wackeln 2.6s ease-in-out infinite; }
+@keyframes wackeln { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-3deg); } 86% { transform: rotate(2deg); } 92% { transform: rotate(-1deg); } }
+.laeuten { transform-box: fill-box; transform-origin: 50% 20%; animation: laeuten .16s linear infinite alternate; }
+@keyframes laeuten { from { transform: rotate(-11deg); } to { transform: rotate(11deg); } }
+.tuer { animation: tuer 3s ease-in-out infinite; }
+@keyframes tuer { 0%, 50%, 100% { transform: translateX(0); } 62% { transform: translateX(-18px); } 70% { transform: translateX(-5px); } 77% { transform: translateX(-12px); } 85% { transform: translateX(0); } }
+.aufblaehen { transform-box: fill-box; transform-origin: center; animation: aufblaehen 1.8s ease-in-out infinite alternate; }
+@keyframes aufblaehen { from { transform: scale(1, .97); } to { transform: scale(1.03, 1.07); } }
+.punkt { animation: punkt 1.2s ease-in-out infinite; }
+@keyframes punkt { 0%, 100% { opacity: .15; } 50% { opacity: .75; } }
+.drehen { transform-box: view-box; animation: drehen 6s linear infinite; }
+@keyframes drehen { to { transform: rotate(360deg); } }
+.v0 { animation-delay: 0s; } .v1 { animation-delay: -.6s; } .v2 { animation-delay: -1.2s; } .v3 { animation-delay: -1.8s; } .v4 { animation-delay: -2.4s; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } .rauch { opacity: .35; } }
+</style>
+<defs>
+  <path id="fl" d="M0,0 C-58,-4 -80,-62 -48,-122 C-40,-98 -24,-92 -18,-104 C-30,-156 -2,-196 22,-226 C26,-176 62,-152 66,-104 C72,-122 78,-134 72,-154 C108,-112 104,-30 58,-6 C42,2 16,3 0,0 Z"/>
+  <filter id="weich" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  <radialGradient id="glut" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#ff8a00" stop-opacity="0.65"/><stop offset="1" stop-color="#ff8a00" stop-opacity="0"/>
+  </radialGradient>
+  <pattern id="fliese" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#eef1f3"/><path d="M80 0 V80 M0 80 H80" stroke="#d3d9de" stroke-width="3"/></pattern></defs>
+
+  <defs><radialGradient id="alarm" cx="870" cy="190" r="760" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff1a1a" stop-opacity="0.3"/><stop offset="1" stop-color="#ff1a1a" stop-opacity="0"/></radialGradient></defs>
+  <rect width="1200" height="900" fill="#e5e7ea"/>
+  <rect y="650" width="1200" height="250" fill="#8e959c"/>
+  <rect y="640" width="1200" height="12" fill="#b9bfc5"/>
+  <rect x="110" y="200" width="250" height="450" fill="#6b7480"/>
+  <rect x="126" y="216" width="218" height="434" fill="#d9dde1"/>
+  <polygon points="126,650 126,610 160,610 160,570 194,570 194,530 228,530 228,490 262,490 262,450 296,450 296,410 344,410 344,650" fill="#a9b0b8" stroke="#8a929b" stroke-width="3"/>
+  <line x1="132" y1="560" x2="340" y2="362" stroke="#555" stroke-width="8" stroke-linecap="round"/>
+  <rect class="gluehen" x="392" y="184" width="286" height="112" rx="20" fill="#5ee38e" filter="url(#weich)"/>
+  <rect x="410" y="200" width="250" height="80" rx="8" fill="#1b8a3a"/>
+  <path d="M480 240 H430 M446 224 L428 240 L446 256" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect x="500" y="212" width="44" height="56" fill="none" stroke="#fff" stroke-width="6"/>
+  
+  <g transform="translate(600,268) scale(-1,1)" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <circle cx="10" cy="-56" r="8" fill="#fff" stroke="none"/>
+    <path d="M6,-44 L-3,-18"/><path d="M4,-40 L16,-30 L26,-36"/><path d="M4,-40 L-9,-32 L-18,-38"/>
+    <path d="M-3,-18 L9,-6 L7,6"/><path d="M-3,-18 L-14,-4 L-27,-2"/>
+  </g>
+  <g class="laeuten"><circle cx="870" cy="190" r="42" fill="#d32f2f"/><circle cx="870" cy="190" r="16" fill="#8e1b1b"/></g>
+  <path class="blinken v0" d="M810 154 A60 60 0 0 0 810 226 M930 154 A60 60 0 0 1 930 226" stroke="#d32f2f" stroke-width="6" fill="none" stroke-linecap="round"/><path class="blinken v1" d="M788 140.8 A82 82 0 0 0 788 239.2 M952 140.8 A82 82 0 0 1 952 239.2" stroke="#d32f2f" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <rect x="800" y="290" width="300" height="360" fill="#9ba3ac"/>
+  <rect x="815" y="305" width="133" height="345" fill="#c7cdd3"/><rect x="952" y="305" width="133" height="345" fill="#c7cdd3"/>
+  <rect x="870" y="400" width="160" height="62" rx="4" fill="#fff" stroke="#c62828" stroke-width="4"/>
+  <text x="950" y="426" font-size="19" font-weight="700" fill="#c62828" text-anchor="middle">Im Brandfall</text>
+  <text x="950" y="451" font-size="19" font-weight="700" fill="#c62828" text-anchor="middle">nicht benutzen</text>
+  <rect x="756" y="430" width="28" height="64" rx="4" fill="#555"/><circle cx="770" cy="450" r="7" fill="#ccc"/><circle cx="770" cy="474" r="7" fill="#ccc"/>
+  <path d="M540 640 L552 470 Q600 436 648 470 L660 640 Z" fill="#355c8a"/>
+  <path d="M566 488 L462 438" stroke="#355c8a" stroke-width="26" stroke-linecap="round"/>
+  <circle cx="452" cy="434" r="14" fill="#e0b48c"/>
+  <circle cx="600" cy="400" r="44" fill="#e0b48c"/>
+  <path d="M556 392 Q560 350 604 352 Q646 356 644 394 Q630 372 600 374 Q572 374 556 392 Z" fill="#2f2620"/>
+  <rect class="gluehen" width="1200" height="900" fill="url(#alarm)"/>
+</svg>

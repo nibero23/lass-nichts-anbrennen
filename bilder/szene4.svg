@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900" font-family="Segoe UI, Arial, sans-serif">
+<!-- Animierte Szene für „Lass nichts anbrennen“: gezeichnet mit Code (SVG + CSS-Animation), keine fremde Grafik -->
+<style>
+.flackern { transform-box: fill-box; transform-origin: 50% 100%; animation: flackern .45s ease-in-out infinite alternate; }
+@keyframes flackern { from { transform: scale(.92,.86); } to { transform: scale(1.06,1.12); } }
+.rauch { transform-box: fill-box; transform-origin: 50% 50%; opacity: 0; animation: rauch 3s ease-out infinite; }
+@keyframes rauch { 0% { transform: translateY(0) scale(.6); opacity: 0; } 20% { opacity: .55; } 100% { transform: translateY(-170px) scale(1.7); opacity: 0; } }
+.dampf { animation: dampf 2.4s ease-in-out infinite; }
+@keyframes dampf { 0% { transform: translateY(10px); opacity: 0; } 30% { opacity: 1; } 100% { transform: translateY(-50px); opacity: 0; } }
+.blinken { animation: blinken 1s steps(1) infinite; }
+@keyframes blinken { 50% { opacity: .12; } }
+.gluehen { animation: gluehen 1.4s ease-in-out infinite alternate; }
+@keyframes gluehen { from { opacity: .3; } to { opacity: 1; } }
+.pulsieren { transform-box: fill-box; transform-origin: center; animation: pulsieren 1s ease-in-out infinite alternate; }
+@keyframes pulsieren { from { transform: scale(1); } to { transform: scale(1.14); } }
+.welle { transform-box: fill-box; transform-origin: center; animation: welle 1.6s ease-out infinite; }
+@keyframes welle { from { transform: scale(.5); opacity: .9; } to { transform: scale(2.4); opacity: 0; } }
+.laufweg { animation: laufweg 1s linear infinite; }
+@keyframes laufweg { to { stroke-dashoffset: -60; } }
+.wackeln { transform-box: fill-box; transform-origin: 50% 100%; animation: wackeln 2.6s ease-in-out infinite; }
+@keyframes wackeln { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-3deg); } 86% { transform: rotate(2deg); } 92% { transform: rotate(-1deg); } }
+.laeuten { transform-box: fill-box; transform-origin: 50% 20%; animation: laeuten .16s linear infinite alternate; }
+@keyframes laeuten { from { transform: rotate(-11deg); } to { transform: rotate(11deg); } }
+.tuer { animation: tuer 3s ease-in-out infinite; }
+@keyframes tuer { 0%, 50%, 100% { transform: translateX(0); } 62% { transform: translateX(-18px); } 70% { transform: translateX(-5px); } 77% { transform: translateX(-12px); } 85% { transform: translateX(0); } }
+.aufblaehen { transform-box: fill-box; transform-origin: center; animation: aufblaehen 1.8s ease-in-out infinite alternate; }
+@keyframes aufblaehen { from { transform: scale(1, .97); } to { transform: scale(1.03, 1.07); } }
+.punkt { animation: punkt 1.2s ease-in-out infinite; }
+@keyframes punkt { 0%, 100% { opacity: .15; } 50% { opacity: .75; } }
+.drehen { transform-box: view-box; animation: drehen 6s linear infinite; }
+@keyframes drehen { to { transform: rotate(360deg); } }
+.v0 { animation-delay: 0s; } .v1 { animation-delay: -.6s; } .v2 { animation-delay: -1.2s; } .v3 { animation-delay: -1.8s; } .v4 { animation-delay: -2.4s; }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; } .rauch { opacity: .35; } }
+</style>
+<defs>
+  <path id="fl" d="M0,0 C-58,-4 -80,-62 -48,-122 C-40,-98 -24,-92 -18,-104 C-30,-156 -2,-196 22,-226 C26,-176 62,-152 66,-104 C72,-122 78,-134 72,-154 C108,-112 104,-30 58,-6 C42,2 16,3 0,0 Z"/>
+  <filter id="weich" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="14"/></filter>
+  <radialGradient id="glut" cx="50%" cy="50%" r="50%">
+    <stop offset="0" stop-color="#ff8a00" stop-opacity="0.65"/><stop offset="1" stop-color="#ff8a00" stop-opacity="0"/>
+  </radialGradient>
+  <pattern id="fliese" width="80" height="80" patternUnits="userSpaceOnUse"><rect width="80" height="80" fill="#eef1f3"/><path d="M80 0 V80 M0 80 H80" stroke="#d3d9de" stroke-width="3"/></pattern></defs>
+
+  <rect width="1200" height="900" fill="#dfe4e8"/>
+  <rect y="650" width="1200" height="250" fill="#9aa4ad"/>
+  <rect y="640" width="1200" height="12" fill="#c3cad1"/>
+  <rect x="455" y="240" width="290" height="405" fill="#b6bec6"/>
+  <rect x="472" y="255" width="256" height="390" fill="#eef1f4"/>
+  <rect x="560" y="300" width="80" height="100" rx="6" fill="#bcd3e6" stroke="#9aa9b6" stroke-width="4"/>
+  <rect x="490" y="455" width="220" height="18" rx="9" fill="#9aa4ad"/>
+  <text x="600" y="287" font-size="22" font-weight="700" fill="#1b8a3a" text-anchor="middle">NOTAUSGANG</text>
+  <rect class="gluehen" x="462" y="132" width="276" height="112" rx="20" fill="#5ee38e" filter="url(#weich)"/>
+  <rect x="480" y="148" width="240" height="80" rx="8" fill="#1b8a3a"/>
+  
+  <g transform="translate(545,214) scale(1,1)" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <circle cx="10" cy="-56" r="8" fill="#fff" stroke="none"/>
+    <path d="M6,-44 L-3,-18"/><path d="M4,-40 L16,-30 L26,-36"/><path d="M4,-40 L-9,-32 L-18,-38"/>
+    <path d="M-3,-18 L9,-6 L7,6"/><path d="M-3,-18 L-14,-4 L-27,-2"/>
+  </g>
+  <rect x="590" y="160" width="44" height="56" fill="none" stroke="#fff" stroke-width="6"/>
+  <path d="M650 188 H700 M684 172 L702 188 L684 204" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <polygon points="420,500 442,480 642,480 620,500" fill="#dcb27c"/>
+  <polygon points="620,500 642,480 642,630 620,650" fill="#a97d4b"/>
+  <rect x="420" y="500" width="200" height="150" fill="#c79a63"/>
+  <rect x="506" y="500" width="28" height="52.5" fill="#e3c992"/>
+  <rect x="438" y="598" width="60" height="30" fill="#f3efe6"/>
+  <polygon points="615,520 637,500 817,500 795,520" fill="#dcb27c"/>
+  <polygon points="795,520 817,500 817,630 795,650" fill="#a97d4b"/>
+  <rect x="615" y="520" width="180" height="130" fill="#c79a63"/>
+  <rect x="691" y="520" width="28" height="45.5" fill="#e3c992"/>
+  <rect x="633" y="598" width="54" height="30" fill="#f3efe6"/>
+  <polygon points="452,382 474,362 624,362 602,382" fill="#dcb27c"/>
+  <polygon points="602,382 624,362 624,480 602,500" fill="#a97d4b"/>
+  <rect x="452" y="382" width="150" height="118" fill="#c79a63"/>
+  <rect x="513" y="382" width="28" height="41.3" fill="#e3c992"/>
+  <rect x="470" y="448" width="45" height="30" fill="#f3efe6"/>
+  <g class="wackeln">
+  <polygon points="640,432 662,412 792,412 770,432" fill="#dcb27c"/>
+  <polygon points="770,432 792,412 792,500 770,520" fill="#a97d4b"/>
+  <rect x="640" y="432" width="130" height="88" fill="#c79a63"/>
+  <rect x="691" y="432" width="28" height="30.799999999999997" fill="#e3c992"/>
+  <rect x="658" y="468" width="39" height="30" fill="#f3efe6"/></g>
+  
+  <polygon points="820,560 842,540 962,540 940,560" fill="#dcb27c"/>
+  <polygon points="940,560 962,540 962,630 940,650" fill="#a97d4b"/>
+  <rect x="820" y="560" width="120" height="90" fill="#c79a63"/>
+  <rect x="866" y="560" width="28" height="31.499999999999996" fill="#e3c992"/>
+  <rect x="838" y="598" width="36" height="30" fill="#f3efe6"/>
+</svg>

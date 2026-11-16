@@ -27,6 +27,8 @@
         </div>
         <strong id="hitze-anzeige" class="hitze-zahl">0 %</strong>
       </div>
+      <!-- Schaltet den Feueralarm-Ton an und aus -->
+      <button id="ton-button" class="ton-button" type="button"></button>
     </div>
   </header>
 
@@ -61,6 +63,11 @@
         <p id="szene-zeit" class="kleingedruckt"></p>
         <h2 id="szene-titel" tabindex="-1"></h2>
         <p id="szene-situation"></p>
+        <!-- Countdown: der Balken schrumpft, bis die Zeit abgelaufen ist -->
+        <div id="zeit" class="zeit" role="timer">
+          <div class="zeit-balken"><div id="zeit-fuellung" class="zeit-fuellung"></div></div>
+          <span id="zeit-anzeige" class="zeit-zahl"></span>
+        </div>
         <div id="antworten" class="antworten"></div>
       </div>
     </section>
@@ -83,6 +90,8 @@
         <p id="feedback-erklaerung"></p>
       </div>
       <button id="feedback-weiter" class="haupt-button" type="button"></button>
+      <!-- nur nach einem Brand sichtbar -->
+      <a id="feedback-info-link" class="info-link" href="info.html"></a>
     </section>
 
     <!-- ===== 4. ENDBILDSCHIRM ===== -->
@@ -90,7 +99,29 @@
       <h2 id="ende-ueberschrift" tabindex="-1"></h2>
       <p id="ende-punkte" class="ende-punkte"></p>
       <p id="ende-titel" class="ende-titel"></p>
+
+      <!-- Bestenliste: Name eintragen und Top 10 anzeigen (bestenliste.js) -->
+      <div class="bestenliste-bereich">
+        <form id="eintragen-form" class="eintragen">
+          <label id="name-frage" for="name-feld"></label>
+          <div class="eintragen-zeile">
+            <input id="name-feld" type="text" maxlength="20" autocomplete="nickname" required>
+            <button id="eintragen-button" type="submit"></button>
+          </div>
+          <p id="bestenliste-hinweis" class="bestenliste-hinweis"></p>
+        </form>
+        <p id="eintragen-status" class="eintragen-status" role="status"></p>
+
+        <h3 id="bestenliste-ueberschrift"></h3>
+        <p id="bestenliste-meldung" class="bestenliste-hinweis"></p>
+        <table id="bestenliste" class="bestenliste">
+          <thead><tr><th>Platz</th><th>Name</th><th>Punkte</th><th>Zeit</th></tr></thead>
+          <tbody id="bestenliste-zeilen"></tbody>
+        </table>
+      </div>
+
       <button id="nochmal-button" class="haupt-button" type="button"></button>
+      <a id="ende-info-link" class="info-link" href="info.html"></a>
       <footer class="credits">
         <ul id="credits-liste"></ul>
       </footer>
@@ -112,10 +143,14 @@
 
   <!-- Reihenfolge ist wichtig:
        1. pruefung.js passt auf Tippfehler in szenen.js auf
-       2. szenen.js enthält alle Texte
-       3. spiel.js startet das Spiel -->
+       2. szenen.js enthält alle Texte und Einstellungen
+       3. ton.js erzeugt den Feueralarm-Ton
+       4. bestenliste.js speichert und zeigt die Bestenliste
+       5. spiel.js startet das Spiel -->
   <script src="pruefung.js"></script>
   <script src="szenen.js"></script>
+  <script src="ton.js"></script>
+  <script src="bestenliste.js"></script>
   <script src="spiel.js"></script>
 </body>
 </html>

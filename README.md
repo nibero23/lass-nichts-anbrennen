@@ -1,38 +1,47 @@
 # Lass nichts anbrennen – Dein erster Tag
 
 Browser-Entscheidungsspiel zum Thema Brandschutz für den JWSL-Kreativwettbewerb 2026/27.
-Du bist neuer Azubi und triffst an deinem ersten Arbeitstag acht Entscheidungen.
+Du bist neuer Azubi und triffst an deinem ersten Arbeitstag 13 Entscheidungen – gegen die Uhr.
 
 ## Spiel starten
 
 - **Online:** https://nibero23.github.io/lass-nichts-anbrennen/
-- **Lokal:** Doppelklick auf `index.html`. Es wird weder ein Server noch eine Internetverbindung gebraucht.
+- **Lokal:** Doppelklick auf `index.html`. Ein Server wird nicht gebraucht, Internet nur für die Online-Bestenliste.
 
 ## Dateien
 
 | Datei | Aufgabe |
 | --- | --- |
 | `index.html` | Grundgerüst: Statusleiste und die vier Bildschirme (Start, Szene, Feedback, Ende) |
-| `style.css` | Aussehen: Farben ganz oben, Anpassung für Handy und PC |
-| `szenen.js` | **Alle Texte:** Szenen, Antworten, Erklärungen, Spielregeln, Titel, Credits |
-| `spiel.js` | Spielablauf: Punkte zählen, Hitze-Balken füllen, Bildschirme wechseln |
+| `style.css` | Aussehen: Farben ganz oben, Anpassung für Handy und PC, Feuer-Effekt |
+| `szenen.js` | **Alle Texte und Einstellungen:** Szenen, Antworten, Erklärungen, Spielregeln, Zeitlimit, Bestenliste, Titel, Credits |
+| `spiel.js` | Spielablauf: Punkte, Countdown, Hitze-Balken, Bildschirme wechseln |
+| `ton.js` | Erzeugt den Feueralarm-Ton direkt im Browser (keine Sounddatei) |
+| `bestenliste.js` | Speichert und zeigt die Bestenliste (online oder auf dem Gerät) |
 | `pruefung.js` | Prüft `szenen.js` auf Tippfehler und zeigt sie verständlich an |
-| `bilder/` | Eigene Fotos |
+| `info.html` | Zweite Seite „Wissen zum Brandschutz“ mit allen Lösungen, erst nach dem Spielen freigeschaltet |
+| `info.js` | Sperrt die Info-Seite bis nach dem Spielen und baut die Lösungen aus `szenen.js` |
+| `firebase-regeln.json` | Regeln für die Online-Bestenliste (siehe unten) |
+| `bilder/` | Animierte Szenen (`.svg`), auf Wunsch durch eigene Fotos ersetzbar |
 
 ## So läuft ein Spiel ab
 
 ```
-Start → Szene → Antwort ─┬─→ Feedback → nächste Szene → … → Ende → Nochmal spielen
-                         └─ Hitze 100 %? → ganzer Bildschirm geht in Flammen auf → „Brand bricht aus!“ → Nochmal spielen (ab Szene 1)
+Start → Szene (25 s Countdown) → Antwort ─┬─→ Feedback → nächste Szene → … → Feierabend → Bestenliste
+                                          └─ Hitze 100 %? → Alarmton, Bildschirm brennt → „Brand bricht aus!“ → von vorne
 ```
 
-Bei einem Brand ist das Spiel vorbei. Der Bildschirm „Brand bricht aus!“ zeigt den Titel „Brandbeschleuniger“ und trotzdem, was richtig gewesen wäre und warum.
-
-| Antwort | Punkte | Hitze |
+| Ereignis | Punkte | Hitze |
 | --- | --- | --- |
-| richtig | +10 | bleibt gleich |
-| plausibel-falsch | 0 | +20 % |
-| offensichtlich falsch | 0 | +35 % |
+| richtige Antwort | +10, dazu 1 Bonuspunkt je 5 übrige Sekunden | bleibt gleich |
+| plausibel-falsche Antwort | 0 | +20 % |
+| offensichtlich falsche Antwort (zurzeit in keiner Szene) | 0 | +35 % |
+| Zeit abgelaufen | 0 | +20 % |
+
+- Die Antworten werden bei jedem Durchgang neu gemischt.
+- Bei einem Brand ist das Spiel vorbei. Der Bildschirm „Brand bricht aus!“ zeigt den Titel „Brandbeschleuniger“, die richtige Antwort und die Erklärung.
+- In die Bestenliste kommt nur, wer den Tag übersteht. Bei gleicher Punktzahl gewinnt, wer weniger Zeit gebraucht hat.
+- Der Alarmton lässt sich oben rechts mit „Ton aus“ abschalten.
 
 ## Texte ändern
 
@@ -49,15 +58,36 @@ Nach dem Speichern im Browser **F5** drücken. Ist etwas kaputt, zeigt das Spiel
 
 Ein falsch geschriebenes Wort bei `art` (z. B. „richitg“) meldet das Spiel immer mit Szene und Antwort.
 
-## Fotos
+## Online-Bestenliste einrichten
 
-Im Ordner `bilder/` liegen zurzeit **Beispielbilder** mit der Aufschrift „BEISPIELBILD“. Sie sind nur zum Testen da. Speichert eure eigenen Fotos unter genau demselben Namen und überschreibt die Beispielbilder damit. Bei der Abgabe darf kein Beispielbild mehr übrig sein.
+Solange in `szenen.js` bei `BESTENLISTE` keine `adresse` steht, speichert jedes Gerät seine eigene Bestenliste. Für eine gemeinsame Liste aller Spieler braucht ihr eine kostenlose Firebase-Datenbank von Google (Tarif „Spark“, keine Kreditkarte nötig):
 
-- Dateinamen: `szene1.jpg` bis `szene8.jpg`, dazu optional `titel.jpg` für den Startbildschirm
-- **Querformat 4:3**. Was nicht in den Rahmen passt, wird am Rand abgeschnitten.
-- **Alles kleinschreiben, Endung `.jpg`.** Windows ist das egal, GitHub Pages nicht: `Szene1.JPG` wird dort nicht gefunden.
-- Vorher auf etwa 1600 Pixel Breite verkleinern, sonst lädt das Spiel auf dem Handy lange.
-- Fehlt ein Foto, zeigt das Spiel einen grauen Platzhalter mit dem Dateinamen.
+1. Auf https://console.firebase.google.com mit einem Google-Konto anmelden und ein neues Projekt anlegen, z. B. „lass-nichts-anbrennen“. Google Analytics wird nicht gebraucht.
+2. Im Menü links **Realtime Database** öffnen und **Datenbank erstellen** wählen. Als Standort **Belgien (europe-west1)** nehmen, damit die Daten in der EU liegen. Im **gesperrten Modus** starten.
+3. Im Reiter **Regeln** alles löschen, den Inhalt von `firebase-regeln.json` hineinkopieren und **Veröffentlichen**.
+4. Im Reiter **Daten** steht oben die Adresse, z. B. `https://lass-nichts-anbrennen-default-rtdb.europe-west1.firebasedatabase.app`. Diese in `szenen.js` bei `BESTENLISTE` → `adresse` eintragen.
+5. Einmal durchspielen und eintragen. Der Eintrag erscheint dann in Firebase unter **Daten**.
+
+Was die Regeln erlauben: Jeder darf die Liste lesen und neue Einträge hinzufügen, aber keine fremden Einträge ändern oder löschen. Namen dürfen höchstens 20 Zeichen lang sein, Punkte höchstens 200 (bei mehr Szenen in `firebase-regeln.json` erhöhen).
+
+**Wichtig:**
+- **Unpassende Namen** könnt nur ihr löschen: in der Firebase-Konsole unter **Daten** beim Eintrag auf das Mülleimer-Symbol.
+- **Datenschutz:** Die Spitznamen sind öffentlich und liegen bei Google. Das Spiel weist beim Eintragen darauf hin. Klärt mit eurer Lehrkraft, ob das für den Wettbewerb so in Ordnung ist.
+- **Schummeln** lässt sich bei einer Webseite ohne eigenen Server nicht ganz verhindern. Die Regeln begrenzen nur, was eingetragen werden kann.
+
+## Info-Seite
+
+`info.html` zeigt Hintergrundwissen und alle Lösungen. Damit niemand vorher spickt, ist sie gesperrt, bis man einmal bis zum Feierabend gespielt hat oder ein Brand ausgebrochen ist. Der Link „Wissen zum Brandschutz und alle Lösungen“ erscheint erst dann. Gespeichert wird das im Browser (`localStorage`), es gilt also pro Gerät.
+
+Die Texte stehen direkt in `info.html` zwischen `<p>` und `</p>` bzw. `<li>` und `</li>`. Der Abschnitt „Alle Situationen aus dem Spiel“ entsteht automatisch aus `szenen.js`.
+
+Die Materialien der JWSL (Wissensseiten, Filme, Quiz) sind nur verlinkt, nicht kopiert, weil im Wettbewerb keine Inhalte von Dritten verwendet werden dürfen.
+
+## Bilder und Animationen
+
+In `bilder/` liegen animierte Szenen als `.svg`-Dateien: Zeichnungen aus Code mit eingebauter CSS-Animation (Rauch steigt, Flammen flackern, die Brandschutztür drückt gegen den Keil …). Sie wurden mit Claude Code erstellt, das gehört in Feld 5 der Beitragsbeschreibung.
+
+Eigenes Foto statt Animation: Foto im **Querformat 4:3** in `bilder/` speichern (klein geschrieben, Endung `.jpg`, auf etwa 1600 Pixel Breite verkleinert) und in `szenen.js` bei der Szene `bild` ändern, z. B. `bild: "bilder/szene2.jpg",`. Fehlt ein Bild, zeigt das Spiel einen grauen Platzhalter mit dem Dateinamen.
 
 ## Farben ändern
 
@@ -78,10 +108,11 @@ git push
 Nach ein bis zwei Minuten ist die neue Version online. Danach im Browser mit Strg + F5 neu laden.
 
 - `SPIELKONZEPT.md` wird nicht hochgeladen, weil sie in `.gitignore` steht. Sie bleibt nur auf eurem PC.
-- Alles im Repository ist öffentlich, auch die Namen in den Credits und die Fotos.
+- Alles im Repository ist öffentlich, auch die Namen in den Credits.
 
 ## Hinweise zum Wettbewerb
 
 - Nur reines HTML, CSS und JavaScript, ohne Frameworks oder Bibliotheken.
-- Das Spiel lädt nichts aus dem Internet nach: keine Schriften, Icons oder Bilder von Dritten.
-- Programmiert mit Unterstützung von Claude Code.
+- Keine Schriften, Icons, Bilder, Töne oder Musik von Dritten. Der Alarmton wird im Browser erzeugt, die Animationen sind Code.
+- Nur die Online-Bestenliste verbindet sich mit einem fremden Dienst (Google Firebase), und nur für Namen und Punkte.
+- Programmiert mit Unterstützung von Claude Code, Animationen und Textentwürfe ebenfalls mit Claude Code erstellt.

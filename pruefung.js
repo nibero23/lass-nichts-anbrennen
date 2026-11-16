@@ -41,7 +41,7 @@ function pruefeSzenenDatei() {
   //    Bei einem Tippfehler gibt es diese Namen nicht, und schon der
   //    Zugriff darauf löst einen Fehler aus, den wir hier auffangen.
   try {
-    if (!ANTWORTARTEN || !TEXTE || !TITEL || !CREDITS || !SZENEN) {
+    if (!ANTWORTARTEN || !ZEIT || !BESTENLISTE || !TEXTE || !TITEL || !CREDITS || !SZENEN) {
       return ["In szenen.js ist einer der Abschnitte leer."];
     }
   } catch (fehler) {
@@ -51,6 +51,18 @@ function pruefeSzenenDatei() {
   // b) Ist der Inhalt vollständig?
   const meldungen = [];
   const erlaubteArten = Object.keys(ANTWORTARTEN);
+
+  if (typeof ZEIT.sekunden !== "number" || ZEIT.sekunden < 0 ||
+      typeof ZEIT.bonusAlle !== "number" || ZEIT.bonusAlle <= 0) {
+    meldungen.push("ZEIT: sekunden und bonusAlle müssen Zahlen ohne Anführungszeichen sein, bonusAlle größer als 0.");
+  }
+  if (!ZEIT.zuSpaet || typeof ZEIT.zuSpaet.punkte !== "number" || typeof ZEIT.zuSpaet.hitze !== "number") {
+    meldungen.push("ZEIT: Bei zuSpaet müssen punkte und hitze als Zahlen eingetragen sein.");
+  }
+  if (typeof BESTENLISTE.adresse !== "string" ||
+      (BESTENLISTE.adresse !== "" && !/^https?:\/\//.test(BESTENLISTE.adresse))) {
+    meldungen.push("BESTENLISTE: Die adresse muss leer sein oder mit https:// beginnen.");
+  }
 
   if (!ANTWORTARTEN.richtig) {
     meldungen.push("Bei ANTWORTARTEN fehlt die Art „richtig“.");
