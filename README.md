@@ -16,7 +16,7 @@ Du bist neuer Azubi und triffst an deinem ersten Arbeitstag 13 Entscheidungen �
 | `style.css` | Aussehen: Farben ganz oben, Anpassung für Handy und PC, Feuer-Effekt |
 | `szenen.js` | **Alle Texte und Einstellungen:** Szenen, Antworten, Erklärungen, Spielregeln, Zeitlimit, Bestenliste, Titel, Credits |
 | `spiel.js` | Spielablauf: Punkte, Countdown, Hitze-Balken, Bildschirme wechseln |
-| `ton.js` | Erzeugt den Feueralarm-Ton direkt im Browser (keine Sounddatei) |
+| `ton.js` | Erzeugt die Töne für richtig, falsch und den Feueralarm direkt im Browser (keine Sounddateien) |
 | `bestenliste.js` | Speichert und zeigt die Bestenliste (online oder auf dem Gerät) |
 | `pruefung.js` | Prüft `szenen.js` auf Tippfehler und zeigt sie verständlich an |
 | `info.html` | Zweite Seite „Wissen zum Brandschutz“ mit allen Lösungen, erst nach dem Spielen freigeschaltet |
@@ -41,7 +41,7 @@ Start → Szene (25 s Countdown) → Antwort ─┬─→ Feedback → nächste 
 - Die Antworten werden bei jedem Durchgang neu gemischt.
 - Bei einem Brand ist das Spiel vorbei. Der Bildschirm „Brand bricht aus!“ zeigt den Titel „Brandbeschleuniger“, die richtige Antwort und die Erklärung.
 - In die Bestenliste kommt nur, wer den Tag übersteht. Bei gleicher Punktzahl gewinnt, wer weniger Zeit gebraucht hat.
-- Der Alarmton lässt sich oben rechts mit „Ton aus“ abschalten.
+- Nach jeder Antwort kommt ein kurzer Ton: hell und aufsteigend bei richtig, tief und absteigend bei falsch oder zu langsam. Beim Brand heult stattdessen der Feueralarm. Alle Töne lassen sich oben rechts mit „Ton aus“ abschalten.
 
 ## Texte ändern
 

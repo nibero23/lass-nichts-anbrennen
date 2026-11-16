@@ -280,6 +280,12 @@ function verrechne(antwort, regel, bonus) {
       zeigeFeedback(antwort, regel, bonus);
     });
   } else {
+    // Kurzer Ton: richtig oder falsch (ton.js)
+    if (antwort.art === "richtig") {
+      spieleRichtig();
+    } else {
+      spieleFalsch();
+    }
     zeigeFeedback(antwort, regel, bonus);
   }
 }
