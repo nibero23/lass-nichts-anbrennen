@@ -6,3 +6,7 @@ SPIELKONZEPT.md
 # Von Windows automatisch angelegte Dateien
 Thumbs.db
 desktop.ini
+
+# Interne Notizen und Tests (bleiben nur auf diesem PC)
+UEBERGABE.md
+tests/

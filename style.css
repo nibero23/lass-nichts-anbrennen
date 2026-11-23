@@ -1273,6 +1273,87 @@ a.haupt-button {
 
 
 /* =====================================================================
+   FLUCHTWEG-LAUF (fluchtweg.html)
+   ===================================================================== */
+
+.lauf-seite #lauf-spiel {
+  max-width: 760px;
+}
+
+.lauf-seite .statusleiste-innen {
+  flex-wrap: wrap;       /* auf schmalen Handys in zwei Zeilen */
+  row-gap: 6px;
+}
+
+/* Was kommt auf welcher Bahn? Drei Spalten wie die drei Bahnen */
+.lauf-vorschau {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.vorschau-bahn {
+  min-height: 2.8em;
+  padding: 6px 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  color: var(--text);
+  background: var(--flaeche);
+  border: 2px solid var(--rand);
+  border-radius: 8px;
+}
+
+/* Die Bahn, auf der man gerade läuft */
+.vorschau-bahn.eigene {
+  border-color: var(--zeit-farbe);
+  box-shadow: inset 0 -4px 0 var(--zeit-farbe);
+}
+
+.lauf-feld {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--ecken);
+  background: #e3ded3;
+  touch-action: none;                   /* Wischen wechselt die Bahn, nicht die Seite */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.lauf-meldung {
+  min-height: 1.5em;
+  margin: 8px 0;
+  font-weight: 700;
+}
+
+.lauf-meldung.gut      { color: var(--farbe-richtig); }
+.lauf-meldung.schlecht { color: var(--farbe-plausibel); }
+.lauf-meldung.alarm    { color: var(--farbe-offensichtlich); }
+
+.lauf-knoepfe {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr 1fr;
+  gap: 10px;
+}
+
+.lauf-knoepfe .antwort {
+  text-align: center;
+  font-weight: 700;
+}
+
+.lauf-knoepfe .haupt-button {
+  width: 100%;
+  min-width: 0;
+  margin-top: 0;
+}
+
+
+/* =====================================================================
    FEHLER-STATISTIK (statistik.html)
    ===================================================================== */
 

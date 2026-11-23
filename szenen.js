@@ -159,6 +159,13 @@ const MINISPIELE = [
     rekord:       "lna-rekord-feuerloescher",
   },
   {
+    titel:        "Fluchtweg-Lauf",
+    beschreibung: "Lauf durch das Bürogebäude, entscheide im Vorbeilaufen und finde am Ende den richtigen Weg nach draußen.",
+    seite:        "fluchtweg.html",
+    rekord:       "lna-rekord-fluchtweg",
+    rekordEinheit: "punkte",   // hier ist mehr besser (bei den anderen: weniger Zeit)
+  },
+  {
     titel:        "Häufigste Irrtümer",
     beschreibung: "Statistik: Bei welchen Situationen liegen die meisten Spieler falsch? Anonym gezählt, ohne Namen.",
     seite:        "statistik.html",
@@ -207,6 +214,70 @@ const FEUERLOESCHER = {
   verlorenText:  "Jetzt nicht weiter kämpfen: Raum verlassen, Tür hinter dir schließen und die Feuerwehr einweisen. Versuch es noch einmal: kurze Stöße, tief auf die Glut zielen.",
   neuerRekord:   "Neuer Rekord!",
   nochmal:       "Nochmal",
+};
+
+
+// ---------------------------------------------------------------------
+// FLUCHTWEG-LAUF (fluchtweg.html)
+// Die „id“ bestimmt das Bild der Station (fluchtweg.js) – bitte nicht ändern.
+// mangel: true  = muss behoben werden
+// mangel: false = ist in Ordnung und soll stehen bleiben
+// ---------------------------------------------------------------------
+const FLUCHTWEG = {
+  titel:       "Fluchtweg-Lauf",
+  anleitung:   "Du läufst durch das Bürogebäude. Auf drei Bahnen kommen dir Stationen entgegen. Behebe die Mängel, lass alles in Ordnung stehen. Übersehene Mängel und unnötiges Eingreifen heizen den Hitze-Balken auf. Am Ende geht der Feueralarm los: Finde den richtigen Weg nach draußen!",
+  steuerung:   "Bahn wechseln: wischen, Pfeiltasten oder Knöpfe. Beheben: tippen, Leertaste oder Knopf „Beheben“.",
+  startButton: "Loslaufen",
+  links:       "Links",
+  rechts:      "Rechts",
+  beheben:     "Beheben",
+  punkte:      "Punkte",
+  hitze:       "Hitze",
+  vorschau:    "Als Nächstes",
+
+  punkteMangel:   10,   // Punkte für einen behobenen Mangel
+  punkteFinale:   30,   // Punkte für den richtigen Ausgang
+  hitzeFehler:    15,   // Hitze in Prozent für übersehen oder unnötig behoben
+  laufSekunden:   80,   // so lange dauert der Lauf bis zum Alarm
+
+  behobenText:    "Behoben:",
+  uebersehenText: "Übersehen:",
+  inOrdnungText:  "War in Ordnung:",
+  alarmText:      "Feueralarm! Finde den richtigen Ausgang!",
+
+  dinge: [
+    { id: "kartons",     mangel: true,  name: "Kartons vor dem Notausgang",       erklaerung: "Fluchtwege und Notausgänge müssen frei bleiben." },
+    { id: "keil",        mangel: true,  name: "Brandschutztür mit Keil",          erklaerung: "Brandschutztüren müssen zufallen können." },
+    { id: "akku",        mangel: true,  name: "Akku lädt im Flur",                erklaerung: "Flure sind Fluchtwege. Dort keine Akkus laden." },
+    { id: "leisten",     mangel: true,  name: "Steckdosenleisten hintereinander", erklaerung: "Hintereinander gesteckte Leisten können überhitzen." },
+    { id: "powerbank",   mangel: true,  name: "Aufgeblähte Powerbank",            erklaerung: "Beschädigte Akkus nicht mehr benutzen und abgeben." },
+    { id: "kerze",       mangel: true,  name: "Brennende Kerze neben Papier",     erklaerung: "Offenes Feuer gehört nicht neben Brennbares." },
+    { id: "loescherzu",  mangel: true,  name: "Zugestellter Feuerlöscher",        erklaerung: "Feuerlöscher müssen frei erreichbar sein." },
+    { id: "schildzu",    mangel: true,  name: "Verdecktes Rettungszeichen",       erklaerung: "Rettungszeichen dürfen nie verdeckt sein." },
+    { id: "loescher",    mangel: false, name: "Feuerlöscher im Halter",           erklaerung: "Frei erreichbar und gut sichtbar." },
+    { id: "tuer",        mangel: false, name: "Geschlossene Brandschutztür",      erklaerung: "Geschlossen hält sie Feuer und Rauch auf." },
+    { id: "schild",      mangel: false, name: "Rettungszeichen",                  erklaerung: "Zeigt im Ernstfall den Weg nach draußen." },
+    { id: "rauchmelder", mangel: false, name: "Rauchmelder",                      erklaerung: "Warnt früh, wenn es irgendwo raucht." },
+    { id: "erstehilfe",  mangel: false, name: "Erste-Hilfe-Kasten",               erklaerung: "Gehört gut erreichbar an die Wand." },
+    { id: "ladeschrank", mangel: false, name: "Akku-Ladeschrank",                 erklaerung: "Hier dürfen Akkus sicher geladen werden." },
+  ],
+
+  // Die drei Ausgänge im Finale. Nur einer ist richtig.
+  ausgaenge: [
+    { id: "treppe",  richtig: true,  name: "Treppenhaus",                    erklaerung: "Richtig: über die Treppe nach draußen und zur Sammelstelle." },
+    { id: "aufzug",  richtig: false, name: "Aufzug",                         erklaerung: "Aufzüge können im Brandfall stecken bleiben oder in verrauchte Etagen fahren." },
+    { id: "laptop",  richtig: false, name: "Zurück zum Platz, Laptop holen", erklaerung: "Im Alarmfall nichts mehr holen: Jede Sekunde zählt." },
+  ],
+
+  // Ergebnis
+  geschafft:      "Geschafft! Du bist an der Sammelstelle.",
+  falscherAusgang: "Falscher Ausgang!",
+  brand:          "Brand bricht aus!",
+  brandText:      "Zu viele Mängel übersehen oder an der falschen Stelle eingegriffen. Versuch es noch einmal.",
+  statistik:      "{behoben} von {mangel} Mängeln behoben",
+  uebersehenUeberschrift: "Das solltest du dir merken:",
+  neuerRekord:    "Neuer Rekord!",
+  nochmal:        "Nochmal laufen",
 };
 
 

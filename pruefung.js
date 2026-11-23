@@ -42,7 +42,7 @@ function pruefeSzenenDatei() {
   //    Zugriff darauf löst einen Fehler aus, den wir hier auffangen.
   try {
     if (!ANTWORTARTEN || !ZEIT || !BESTENLISTE || !TEXTE || !TITEL || !CREDITS || !SZENEN ||
-        !MINISPIELE || !SUCHBILD || !STATISTIK || !FEUERLOESCHER) {
+        !MINISPIELE || !SUCHBILD || !STATISTIK || !FEUERLOESCHER || !FLUCHTWEG) {
       return ["In szenen.js ist einer der Abschnitte leer."];
     }
   } catch (fehler) {

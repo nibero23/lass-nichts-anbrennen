@@ -159,7 +159,9 @@ function zeigeMenue() {
     if (frei && rekord !== null) {
       const zeile = document.createElement("span");
       zeile.className = "menue-rekord";
-      zeile.textContent = TEXTE.rekord + " " + formatiereZeit(rekord);
+      // Rekord als Punkte (z. B. Fluchtweg-Lauf) oder als Zeit (z. B. Suchbild)
+      zeile.textContent = TEXTE.rekord + " " +
+        (spiel.rekordEinheit === "punkte" ? rekord + " Punkte" : formatiereZeit(rekord));
       karte.appendChild(zeile);
     }
     if (!frei) {

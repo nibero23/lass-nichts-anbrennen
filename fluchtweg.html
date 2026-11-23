@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fluchtweg-Lauf – Lass nichts anbrennen</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="lauf-seite">
+
+  <!-- Statusleiste: Zurück, Punkte, Hitze, Ton -->
+  <header class="statusleiste">
+    <div class="statusleiste-innen">
+      <a class="zurueck-link" href="index.html">← Menü</a>
+      <div><span id="text-punkte"></span> <strong id="punkte-anzeige">0</strong></div>
+      <div class="hitze">
+        <span id="text-hitze"></span>
+        <div class="hitze-balken" role="progressbar" aria-label="Hitze" aria-valuemin="0" aria-valuemax="100">
+          <div id="hitze-fuellung" class="hitze-fuellung"></div>
+        </div>
+      </div>
+      <button id="ton-button" class="ton-button" type="button"></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Erscheint nur, wenn in szenen.js ein Tippfehler ist -->
+    <div id="fehler" class="fehler" role="alert" hidden></div>
+
+    <!-- Solange die Prüfung noch nicht gespielt wurde -->
+    <div id="gesperrt" class="kasten gesperrt" hidden>
+      <h2>Erst die Prüfung!</h2>
+      <p>Dieses Training wird freigeschaltet, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
+      <a class="haupt-button" href="index.html">Zur Prüfung</a>
+    </div>
+
+    <!-- ===== START ===== -->
+    <section id="lauf-start" class="bildschirm" hidden>
+      <h1 id="lauf-titel" tabindex="-1"></h1>
+      <p id="lauf-anleitung"></p>
+      <p id="lauf-steuerung" class="bestenliste-hinweis"></p>
+      <p id="lauf-rekord" class="ende-punkte"></p>
+      <button id="lauf-start-button" class="haupt-button" type="button"></button>
+    </section>
+
+    <!-- ===== LAUFEN ===== -->
+    <section id="lauf-spiel" class="bildschirm lauf-spiel" hidden>
+      <h2 class="sr-nur" tabindex="-1">Fluchtweg-Lauf</h2>
+
+      <!-- Was kommt auf welcher Bahn? (gut lesbar, auch auf dem Handy) -->
+      <div class="lauf-vorschau" aria-label="Als Nächstes auf den Bahnen links, Mitte und rechts">
+        <div id="vorschau-0" class="vorschau-bahn"></div>
+        <div id="vorschau-1" class="vorschau-bahn"></div>
+        <div id="vorschau-2" class="vorschau-bahn"></div>
+      </div>
+
+      <!-- Das Spielfeld: wird von fluchtweg.js gezeichnet (Canvas = Zeichenfläche) -->
+      <canvas id="lauf-feld" class="lauf-feld" width="800" height="600" tabindex="0"
+              aria-label="Büroflur mit drei Bahnen. Pfeiltasten links und rechts wechseln die Bahn, Leertaste behebt."></canvas>
+
+      <p id="lauf-meldung" class="lauf-meldung" aria-live="assertive"></p>
+
+      <!-- Knöpfe für Handy und für alle, die nicht wischen wollen -->
+      <div class="lauf-knoepfe">
+        <button id="knopf-links" class="antwort" type="button"></button>
+        <button id="knopf-beheben" class="haupt-button" type="button"></button>
+        <button id="knopf-rechts" class="antwort" type="button"></button>
+      </div>
+    </section>
+
+    <!-- ===== ERGEBNIS ===== -->
+    <section id="lauf-ende" class="bildschirm" hidden>
+      <h2 id="lauf-ende-titel" tabindex="-1"></h2>
+      <p id="lauf-ende-text"></p>
+      <p id="lauf-ende-punkte" class="ende-titel"></p>
+      <p id="lauf-ende-statistik" class="ende-punkte"></p>
+      <p id="lauf-ende-rekord" class="ende-punkte"></p>
+      <div id="lauf-merken" class="kasten" hidden>
+        <h3 id="lauf-merken-titel"></h3>
+        <ul id="lauf-merken-liste"></ul>
+      </div>
+      <button id="lauf-nochmal" class="haupt-button" type="button"></button>
+      <a class="info-link" href="index.html">← Zum Hauptmenü</a>
+    </section>
+  </main>
+
+  <script src="pruefung.js"></script>
+  <script src="szenen.js"></script>
+  <script src="gemeinsam.js"></script>
+  <script src="ton.js"></script>
+  <script src="fluchtweg-bilder.js"></script>
+  <script src="fluchtweg.js"></script>
+</body>
+</html>
