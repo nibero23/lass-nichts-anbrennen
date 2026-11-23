@@ -153,11 +153,61 @@ const MINISPIELE = [
     rekord:       "lna-rekord-suchbild",
   },
   {
+    titel:        "Feuerlöscher-Training",
+    beschreibung: "Im Lagerraum brennt ein Papierkorb. Triff die richtigen Entscheidungen und lösche, bevor der Löscher leer ist.",
+    seite:        "feuerloescher.html",
+    rekord:       "lna-rekord-feuerloescher",
+  },
+  {
     titel:        "Häufigste Irrtümer",
     beschreibung: "Statistik: Bei welchen Situationen liegen die meisten Spieler falsch? Anonym gezählt, ohne Namen.",
     seite:        "statistik.html",
   },
 ];
+
+
+// ---------------------------------------------------------------------
+// FEUERLÖSCHER-TRAINING (feuerloescher.html)
+// ---------------------------------------------------------------------
+const FEUERLOESCHER = {
+  titel:      "Feuerlöscher-Training",
+  anleitung:  "Im Lagerraum brennt ein Papierkorb, die Flammen sind noch klein. Du hast einen Feuerlöscher. Triff die richtigen Entscheidungen und lösche das Feuer, bevor der Löscher leer ist. Die Zeit läuft, falsche Entscheidungen kosten 10 Sekunden.",
+  startButton: "Los geht's",
+  strafe:     10,   // Sekunden für eine falsche Entscheidung
+
+  // Schritt 1
+  frage1:        "Was tust du zuerst?",
+  antwortAlarm:  "Alarm auslösen (Handfeuermelder)",
+  antwortLoeschen: "Sofort mit dem Löschen anfangen",
+  richtig1:      "Richtig: Erst alarmieren, dann löschen. So kommt Hilfe, auch wenn der Löschversuch nicht klappt.",
+  falsch1:       "Erst alarmieren, dann löschen! Klappt der Löschversuch nicht, verlierst du sonst wertvolle Zeit. +10 Sekunden.",
+
+  // Schritt 2
+  frage2:        "Wo stellst du dich zum Löschen hin?",
+  richtig2:      "Richtig: Den Fluchtweg im Rücken. Wird das Feuer zu groß, kommst du sofort raus.",
+  falsch2:       "Dann steht das Feuer zwischen dir und der Tür. Stell dich so hin, dass der Fluchtweg in deinem Rücken liegt. +10 Sekunden.",
+  platzText:     "Platz",
+
+  // Schritt 3
+  anleitung3:    "Halte gedrückt, um zu sprühen, und ziele mit Maus oder Finger. Tastatur: Pfeiltasten zielen, Leertaste sprühen.",
+  feuer:         "Feuer",
+  loeschmittel:  "Löschmittel",
+  zeit:          "Zeit",
+  tippGlut:      "Ziel tiefer: auf die Glut, nicht auf die Flammen!",
+  tippStoesse:   "Kurze Stöße! Sonst stehst du in der Pulverwolke und verschwendest Löschmittel.",
+  tippDaneben:   "Daneben. Ziel auf das Feuer.",
+
+  // Ergebnis
+  geschafft:     "Feuer gelöscht!",
+  geschafftTipps: [
+    "Brandstelle weiter beobachten: Glut kann wieder aufflammen.",
+    "Benutzten Feuerlöscher nicht zurück an die Wand hängen, sondern melden, damit er neu gefüllt wird.",
+  ],
+  verloren:      "Der Löscher ist leer, es brennt noch!",
+  verlorenText:  "Jetzt nicht weiter kämpfen: Raum verlassen, Tür hinter dir schließen und die Feuerwehr einweisen. Versuch es noch einmal: kurze Stöße, tief auf die Glut zielen.",
+  neuerRekord:   "Neuer Rekord!",
+  nochmal:       "Nochmal",
+};
 
 
 // ---------------------------------------------------------------------

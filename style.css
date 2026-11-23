@@ -1136,6 +1136,143 @@ a.haupt-button {
 
 
 /* =====================================================================
+   FEUERLÖSCHER-TRAINING (feuerloescher.html)
+   ===================================================================== */
+
+.loescher-seite #fl-schritt2,
+.loescher-seite #fl-schritt3 {
+  max-width: 760px;
+}
+
+.fl-grundriss {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 8px;
+  background: var(--flaeche);
+  border-radius: var(--ecken);
+}
+
+.fl-platz-knoepfe {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.fl-platz-knoepfe .antwort {
+  text-align: center;
+  font-weight: 700;
+}
+
+.fl-rueckmeldung {
+  margin-top: 16px;
+  border-left: 6px solid var(--rand);
+}
+
+.fl-rueckmeldung p {
+  margin: 0;
+}
+
+.fl-rueckmeldung.gut {
+  border-left-color: var(--farbe-richtig);
+}
+
+.fl-rueckmeldung.schlecht {
+  border-left-color: var(--farbe-offensichtlich);
+}
+
+.fl-balken-zeile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 6px 0;
+}
+
+.fl-balken-zeile span {
+  min-width: 6.5em;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.fl-balken {
+  flex: 1;
+  height: 12px;
+  border-radius: 6px;
+  overflow: hidden;
+  background: var(--balken-leer);
+}
+
+.fl-fuellung {
+  width: 100%;
+  height: 100%;
+}
+
+.fl-fuellung.fl-feuer {
+  background: linear-gradient(to right, var(--hitze-kalt), var(--hitze-heiss));
+}
+
+.fl-fuellung.fl-mittel {
+  background: var(--zeit-farbe);
+}
+
+.fl-raum {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: var(--ecken);
+  cursor: crosshair;
+  touch-action: none;                   /* Wischen soll zielen, nicht die Seite verschieben */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#fl-ziel,
+#fl-nebel,
+#fl-pulverwolke {
+  pointer-events: none;
+}
+
+.fl-tipp {
+  min-height: 1.5em;
+  font-weight: 700;
+  color: var(--farbe-plausibel);
+}
+
+/* Flammen flackern, Rauch steigt auf */
+.fl-flackern {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: fl-flackern 0.4s ease-in-out infinite alternate;
+}
+
+.fl-flackern.f2 { animation-delay: -0.2s; }
+.fl-flackern.f3 { animation-delay: -0.3s; }
+
+@keyframes fl-flackern {
+  from { transform: scale(0.92, 0.86); }
+  to   { transform: scale(1.06, 1.12); }
+}
+
+.fl-wolke {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: fl-rauch 3s ease-out infinite;
+}
+
+.fl-wolke.w1 { animation-delay: -1s; }
+.fl-wolke.w2 { animation-delay: -2s; }
+
+@keyframes fl-rauch {
+  0%   { transform: translateY(40px) scale(0.7); opacity: 0; }
+  30%  { opacity: 0.7; }
+  100% { transform: translateY(-120px) scale(1.5); opacity: 0; }
+}
+
+
+/* =====================================================================
    FEHLER-STATISTIK (statistik.html)
    ===================================================================== */
 
@@ -1307,7 +1444,9 @@ a.haupt-button {
   .mangel .kaputt {
     transition: none;
   }
-  .mangel.tipp .markierung {
+  .mangel.tipp .markierung,
+  .fl-flackern,
+  .fl-wolke {
     animation: none;
   }
 }

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Feuerlöscher-Training – Lass nichts anbrennen</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="loescher-seite">
+
+  <header class="statusleiste">
+    <div class="statusleiste-innen">
+      <a class="zurueck-link" href="index.html">← Menü</a>
+      <div><span id="text-zeit"></span> <strong id="zeit-gesamt" class="hitze-zahl">0:00 min</strong></div>
+      <button id="ton-button" class="ton-button" type="button"></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Erscheint nur, wenn in szenen.js ein Tippfehler ist -->
+    <div id="fehler" class="fehler" role="alert" hidden></div>
+
+    <!-- Solange die Prüfung noch nicht gespielt wurde -->
+    <div id="gesperrt" class="kasten gesperrt" hidden>
+      <h2>Erst die Prüfung!</h2>
+      <p>Dieses Training wird freigeschaltet, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
+      <a class="haupt-button" href="index.html">Zur Prüfung</a>
+    </div>
+
+    <!-- ===== START ===== -->
+    <section id="fl-start" class="bildschirm" hidden>
+      <h1 id="fl-titel" tabindex="-1"></h1>
+      <p id="fl-anleitung"></p>
+      <p id="fl-rekord" class="ende-punkte"></p>
+      <button id="fl-start-button" class="haupt-button" type="button"></button>
+    </section>
+
+    <!-- ===== SCHRITT 1: Was zuerst? ===== -->
+    <section id="fl-schritt1" class="bildschirm" hidden>
+      <p class="kleingedruckt">Schritt 1 von 3</p>
+      <h2 id="fl-frage1" tabindex="-1"></h2>
+      <div id="fl-antworten1" class="antworten"></div>
+      <div id="fl-rueckmeldung1" class="kasten fl-rueckmeldung" hidden>
+        <p id="fl-rueckmeldung1-text"></p>
+      </div>
+      <button id="fl-weiter1" class="haupt-button" type="button" hidden>Weiter</button>
+    </section>
+
+    <!-- ===== SCHRITT 2: Wo hinstellen? (Grundriss von oben) ===== -->
+    <section id="fl-schritt2" class="bildschirm" hidden>
+      <p class="kleingedruckt">Schritt 2 von 3</p>
+      <h2 id="fl-frage2" tabindex="-1"></h2>
+      <!-- Grundriss, selbst gezeichnet. Welcher Buchstabe wo steht, mischt feuerloescher.js -->
+      <svg class="fl-grundriss" viewBox="0 0 600 340" role="img" aria-label="Grundriss: Tür links, Brand in der Mitte, Platz zwischen Tür und Brand und Platz hinter dem Brand">
+        <rect x="40" y="30" width="520" height="280" fill="#f4f1ea" stroke="#555" stroke-width="8"/>
+        <rect x="30" y="130" width="22" height="80" fill="#1b8a3a"/>
+        <path d="M24 170 H4 M14 160 L2 170 L14 180" stroke="#1b8a3a" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="62" y="122" font-size="17" font-weight="700" fill="#1b8a3a">Tür (Fluchtweg)</text>
+        <circle cx="340" cy="170" r="44" fill="#ffccbc"/>
+        <g transform="translate(340,196) scale(0.32)">
+          <use href="#fl-flamme-plan" fill="#ff5a1f"/>
+          <use href="#fl-flamme-plan" fill="#ffb300" transform="translate(4,0) scale(.6)"/>
+        </g>
+        <text x="340" y="236" font-size="17" font-weight="700" fill="#c62828" text-anchor="middle">Brand</text>
+        <!-- Platz an der Tür: Fluchtweg im Rücken -->
+        <g class="fl-platz">
+          <circle cx="190" cy="170" r="28" fill="#1a5fb4"/>
+          <text id="platz-tuer" x="190" y="180" font-size="28" font-weight="800" fill="#fff" text-anchor="middle"></text>
+          <path d="M222 170 H282 M270 160 L284 170 L270 180" stroke="#1a5fb4" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <!-- Platz hinter dem Brand: Feuer zwischen Person und Tür -->
+        <g class="fl-platz">
+          <circle cx="490" cy="170" r="28" fill="#1a5fb4"/>
+          <text id="platz-hinten" x="490" y="180" font-size="28" font-weight="800" fill="#fff" text-anchor="middle"></text>
+          <path d="M458 170 H398 M410 160 L396 170 L410 180" stroke="#1a5fb4" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </g>
+        <defs>
+          <path id="fl-flamme-plan" d="M0,0 C-58,-4 -80,-62 -48,-122 C-40,-98 -24,-92 -18,-104 C-30,-156 -2,-196 22,-226 C26,-176 62,-152 66,-104 C72,-122 78,-134 72,-154 C108,-112 104,-30 58,-6 C42,2 16,3 0,0 Z"/>
+        </defs>
+      </svg>
+      <div class="fl-platz-knoepfe">
+        <button id="platz-a" class="antwort" type="button"></button>
+        <button id="platz-b" class="antwort" type="button"></button>
+      </div>
+      <div id="fl-rueckmeldung2" class="kasten fl-rueckmeldung" hidden>
+        <p id="fl-rueckmeldung2-text"></p>
+      </div>
+      <button id="fl-weiter2" class="haupt-button" type="button" hidden>Weiter</button>
+    </section>
+
+    <!-- ===== SCHRITT 3: Löschen ===== -->
+    <section id="fl-schritt3" class="bildschirm fl-loeschen" hidden>
+      <p class="kleingedruckt">Schritt 3 von 3</p>
+      <h2 id="fl-titel3" class="sr-nur" tabindex="-1">Löschen</h2>
+      <p id="fl-anleitung3" class="bestenliste-hinweis"></p>
+
+      <!-- Feuer und Löschmittel als Balken -->
+      <div class="fl-balken-zeile">
+        <span id="text-feuer"></span>
+        <div class="fl-balken"><div id="feuer-fuellung" class="fl-fuellung fl-feuer"></div></div>
+      </div>
+      <div class="fl-balken-zeile">
+        <span id="text-mittel"></span>
+        <div class="fl-balken"><div id="mittel-fuellung" class="fl-fuellung fl-mittel"></div></div>
+      </div>
+
+      <!-- Der Raum aus Sicht der Person mit dem Feuerlöscher. Selbst gezeichnet. -->
+      <svg id="raum" class="fl-raum" viewBox="0 0 1000 750" tabindex="0"
+           aria-label="Raum mit brennendem Papierkorb. Halte gedrückt oder die Leertaste, um zu sprühen.">
+        <defs>
+          <path id="fl-flamme" d="M0,0 C-58,-4 -80,-62 -48,-122 C-40,-98 -24,-92 -18,-104 C-30,-156 -2,-196 22,-226 C26,-176 62,-152 66,-104 C72,-122 78,-134 72,-154 C108,-112 104,-30 58,-6 C42,2 16,3 0,0 Z"/>
+          <radialGradient id="fl-glut-verlauf"><stop offset="0" stop-color="#ffb300" stop-opacity="0.8"/><stop offset="1" stop-color="#ff6d00" stop-opacity="0"/></radialGradient>
+          <filter id="fl-weich" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="16"/></filter>
+        </defs>
+        <rect width="1000" height="750" fill="#e7e3da"/>
+        <rect y="600" width="1000" height="150" fill="#8f8a80"/>
+        <rect y="590" width="1000" height="12" fill="#bdb7ac"/>
+        <!-- Regal mit Kartons -->
+        <g stroke="#8b6b4a" stroke-width="10"><line x1="60" y1="160" x2="60" y2="600"/><line x1="280" y1="160" x2="280" y2="600"/>
+          <line x1="60" y1="300" x2="280" y2="300"/><line x1="60" y1="450" x2="280" y2="450"/></g>
+        <rect x="80" y="220" width="80" height="78" fill="#c79a63"/><rect x="170" y="240" width="90" height="58" fill="#b88a55"/>
+        <rect x="90" y="370" width="150" height="78" fill="#c79a63"/><rect x="80" y="520" width="110" height="78" fill="#b88a55"/>
+        <!-- Fenster rechts -->
+        <rect x="720" y="120" width="200" height="170" fill="#cfe3f3" stroke="#fff" stroke-width="10"/>
+        <line x1="820" y1="120" x2="820" y2="290" stroke="#fff" stroke-width="8"/>
+        <!-- Rauch, Glühen, Flammen (Größe steuert feuerloescher.js) -->
+        <g id="fl-rauch" class="fl-rauch" filter="url(#fl-weich)" fill="#6b6f75">
+          <ellipse class="fl-wolke w0" cx="490" cy="330" rx="60" ry="45"/>
+          <ellipse class="fl-wolke w1" cx="520" cy="300" rx="70" ry="50"/>
+          <ellipse class="fl-wolke w2" cx="480" cy="270" rx="60" ry="45"/>
+        </g>
+        <ellipse id="fl-leuchten" cx="500" cy="500" rx="260" ry="220" fill="url(#fl-glut-verlauf)"/>
+        <g id="fl-flammen" transform="translate(500,566) scale(1)">
+          <g class="fl-flackern"><use href="#fl-flamme" fill="#ff5a1f" transform="scale(1.1)"/><use href="#fl-flamme" fill="#ff9d00" transform="translate(5,0) scale(.8)"/><use href="#fl-flamme" fill="#ffe066" transform="translate(9,0) scale(.45)"/></g>
+          <g transform="translate(-60,4)"><g class="fl-flackern f2"><use href="#fl-flamme" fill="#ff5a1f" transform="scale(.6)"/><use href="#fl-flamme" fill="#ffb300" transform="translate(3,0) scale(.38)"/></g></g>
+          <g transform="translate(58,4)"><g class="fl-flackern f3"><use href="#fl-flamme" fill="#ff5a1f" transform="scale(.65)"/><use href="#fl-flamme" fill="#ffb300" transform="translate(3,0) scale(.4)"/></g></g>
+        </g>
+        <!-- Papierkorb mit Glut -->
+        <ellipse id="fl-glut" cx="500" cy="566" rx="78" ry="16" fill="#ff6d00"/>
+        <polygon points="420,566 580,566 562,668 438,668" fill="#4b5158"/>
+        <ellipse cx="500" cy="566" rx="80" ry="12" fill="none" stroke="#3a3f45" stroke-width="5"/>
+        <!-- Pulverwolke, Sprühnebel und Zielkreuz (setzt feuerloescher.js) -->
+        <circle id="fl-pulverwolke" cx="500" cy="500" r="150" fill="#f5f5f5" opacity="0" filter="url(#fl-weich)"/>
+        <g id="fl-nebel"></g>
+        <g id="fl-ziel" class="fl-ziel">
+          <circle r="24" fill="none" stroke="#c62828" stroke-width="5"/>
+          <path d="M-36 0 H-14 M14 0 H36 M0 -36 V-14 M0 14 V36" stroke="#c62828" stroke-width="5"/>
+        </g>
+        <!-- Feuerlöscher in der eigenen Hand (unten rechts) -->
+        <path d="M940 760 C900 720 860 700 822 690" stroke="#222" stroke-width="16" fill="none" stroke-linecap="round"/>
+        <rect x="800" y="676" width="34" height="26" rx="6" fill="#333" transform="rotate(-15 817 689)"/>
+        <rect x="900" y="640" width="130" height="150" rx="36" fill="#d32f2f"/>
+        <rect x="940" y="610" width="40" height="40" fill="#333"/>
+      </svg>
+      <p id="fl-tipp" class="fl-tipp" aria-live="polite"></p>
+    </section>
+
+    <!-- ===== ERGEBNIS ===== -->
+    <section id="fl-ende" class="bildschirm" hidden>
+      <h2 id="fl-ende-titel" tabindex="-1"></h2>
+      <p id="fl-ende-zeit" class="ende-titel"></p>
+      <p id="fl-ende-rekord" class="ende-punkte"></p>
+      <p id="fl-ende-text"></p>
+      <ul id="fl-ende-tipps"></ul>
+      <button id="fl-nochmal" class="haupt-button" type="button"></button>
+      <a class="info-link" href="index.html">← Zum Hauptmenü</a>
+    </section>
+  </main>
+
+  <script src="pruefung.js"></script>
+  <script src="szenen.js"></script>
+  <script src="gemeinsam.js"></script>
+  <script src="ton.js"></script>
+  <script src="feuerloescher.js"></script>
+</body>
+</html>

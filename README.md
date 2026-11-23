@@ -23,6 +23,8 @@ Du bist neuer Azubi und triffst an deinem ersten Arbeitstag 13 Entscheidungen �
 | `suchbild.html` | Trainingsspiel „Finde die Mängel“ |
 | `suchbild.js` | Ablauf des Suchbilds: Antippen, Strafzeit, Tipp, Rekord |
 | `suchbild-zeichnung.js` | Die Zeichnung des Suchbilds (SVG aus Code) mit den 8 Mängeln |
+| `feuerloescher.html` | Trainingsspiel „Feuerlöscher-Training“ mit Grundriss und Raum-Zeichnung |
+| `feuerloescher.js` | Ablauf des Trainings: Entscheidungen, Spielschleife beim Löschen, Steuerung mit Maus, Finger und Tastatur |
 | `statistik.html` | Seite „Häufigste Irrtümer“: anonyme Auswertung aller Antworten |
 | `statistik.js` | Zählt in der Prüfung anonym die gewählten Antworten und zeigt die Auswertung |
 | `info.html` | Zweite Seite „Wissen zum Brandschutz“: Grundwissen immer frei, „Richtig handeln und Lösungen“ erst nach der Prüfung |
@@ -54,6 +56,8 @@ Start → Szene (25 s Countdown) → Antwort ─┬─→ Feedback → nächste 
 Der Startbildschirm ist zugleich das Hauptmenü. Unter der Prüfung stehen die Info-Seite und die Trainingsspiele. Die Info-Seite ist immer frei. Die Trainingsspiele sind gesperrt, bis man die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hat, weil sie Antworten verraten. Jedes Trainingsspiel speichert einen persönlichen Rekord auf dem Gerät. Welche Spiele im Menü stehen, steht in `szenen.js` unter `MINISPIELE`.
 
 **Finde die Mängel (`suchbild.html`):** In einem gezeichneten Büro mit Flur stecken 8 Brandschutz-Mängel. Antippen behebt sie: Kartons werden weggeräumt, die Brandschutztür fällt zu, die Pflanze vor dem Feuerlöscher verschwindet. Daneben tippen kostet 5 Sekunden, ein Tipp 15 Sekunden. Gewertet wird die Zeit. Auf dem Handy ist das Bild breiter als der Bildschirm und lässt sich seitlich wischen, damit alles groß genug zum Antippen ist. Die Texte zu den Mängeln stehen in `szenen.js` unter `SUCHBILD`.
+
+**Feuerlöscher-Training (`feuerloescher.html`):** Im Lagerraum brennt ein Papierkorb. Schritt 1: Was tust du zuerst? (richtig: Alarm auslösen). Schritt 2: Wo stellst du dich hin? (richtig: Fluchtweg im Rücken, auf einem Grundriss). Falsche Entscheidungen kosten je 10 Sekunden. Schritt 3: Löschen. Gedrückt halten sprüht (Tastatur: Pfeiltasten zielen, Leertaste sprühen). Auf die Glut wirkt es stark, auf die Flammen kaum. Wer länger als eine Sekunde am Stück sprüht, steht in einer Pulverwolke und es wirkt viel schwächer. Ohne Löschen wächst das Feuer wieder. Ist der Löscher leer und es brennt noch, ist der Versuch verloren, mit dem Hinweis „Raum verlassen, Tür schließen“. Die Spielwerte (Wirkung, Verbrauch, Wachstum) stehen oben in `feuerloescher.js`, die Texte in `szenen.js` unter `FEUERLOESCHER`.
 
 **Häufigste Irrtümer (`statistik.html`):** Bei jeder Antwort in der Prüfung zählt das Spiel anonym, welche der drei Antworten gewählt wurde oder ob die Zeit abgelaufen ist. Gespeichert werden nur Zähler in Firebase (z. B. „Szene 8, Antwort 1: 17-mal“), keine Namen und keine Kennungen. Auf dem Startbildschirm steht ein Hinweis darauf. Die Seite zeigt alle Szenen sortiert nach Fehlerquote mit einem Balken pro Antwort. Weil sie die richtigen Antworten zeigt, ist sie erst nach der Prüfung frei. Ohne Online-Datenbank wird nichts gezählt. Werden Szenen oder Antworten in `szenen.js` umsortiert, passen die alten Zähler nicht mehr: dann in der Firebase-Konsole den Eintrag `statistik` löschen.
 

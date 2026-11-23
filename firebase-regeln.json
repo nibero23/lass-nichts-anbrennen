@@ -20,7 +20,7 @@
       "$szene": {
         ".validate": "$szene.matches(/^s[0-9]{1,2}$/)",
         "$antwort": {
-          ".write": true,
+          ".write": "newData.exists()",
           ".validate": "$antwort.matches(/^(a[1-9]|zeit)$/) && newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1"
         }
       }

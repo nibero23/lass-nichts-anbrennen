@@ -6,7 +6,8 @@
 
    1. Richtig: heller, aufsteigender Doppelton („ding-ding“)
    2. Falsch:  tiefer, absteigender Doppelton („dö-döm“)
-   3. Feueralarm beim Brand. Vorbild ist das „Einheitliche Notsignal“
+   3. Sprühen: Rauschen beim Feuerlöscher-Training
+   4. Feueralarm beim Brand. Vorbild ist das „Einheitliche Notsignal“
       (DIN 33404-3), das in Betrieben zur Räumung auffordert: ein Ton,
       der innerhalb einer Sekunde von 1200 Hz auf 500 Hz fällt und sich
       ständig wiederholt.
@@ -79,6 +80,56 @@ function spieleFalsch() {
 }
 
 
+// ---------------------------------------------------------------------
+// SPRÜHGERÄUSCH für das Feuerlöscher-Training: gefiltertes Rauschen
+// ---------------------------------------------------------------------
+let spruehen = null;        // das gerade laufende Sprühgeräusch
+let rauschPuffer = null;    // eine Sekunde Rauschen, wird nur einmal erzeugt
+
+function starteSpruehen() {
+  if (spruehen !== null || !bereiteTonVor()) return;
+
+  // Rauschen = lauter Zufallswerte. Eine Sekunde davon läuft in Schleife.
+  if (rauschPuffer === null) {
+    rauschPuffer = audio.createBuffer(1, audio.sampleRate, audio.sampleRate);
+    const werte = rauschPuffer.getChannelData(0);
+    for (let i = 0; i < werte.length; i++) {
+      werte[i] = Math.random() * 2 - 1;
+    }
+  }
+  const quelle = audio.createBufferSource();
+  quelle.buffer = rauschPuffer;
+  quelle.loop = true;
+
+  // Bandpass: nur ein mittlerer Bereich bleibt übrig, das klingt nach „Pschhh“
+  const filter = audio.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.value = 1800;
+  filter.Q.value = 0.7;
+
+  const lautstaerke = audio.createGain();
+  const jetzt = audio.currentTime;
+  lautstaerke.gain.setValueAtTime(0, jetzt);
+  lautstaerke.gain.linearRampToValueAtTime(0.12, jetzt + 0.05);
+
+  quelle.connect(filter);
+  filter.connect(lautstaerke);
+  lautstaerke.connect(audio.destination);
+  quelle.start();
+  spruehen = { quelle: quelle, lautstaerke: lautstaerke };
+}
+
+function stoppeSpruehen() {
+  if (spruehen === null) return;
+  const jetzt = audio.currentTime;
+  spruehen.lautstaerke.gain.cancelScheduledValues(jetzt);
+  spruehen.lautstaerke.gain.setValueAtTime(spruehen.lautstaerke.gain.value, jetzt);
+  spruehen.lautstaerke.gain.linearRampToValueAtTime(0, jetzt + 0.08);
+  spruehen.quelle.stop(jetzt + 0.1);
+  spruehen = null;
+}
+
+
 // Spielt den Alarm für die angegebene Anzahl Sekunden
 function starteAlarm(sekunden) {
   if (!bereiteTonVor()) return;
@@ -141,7 +192,10 @@ function schalteTon() {
   } catch (fehler) {
     // nicht schlimm: dann gilt die Einstellung nur bis zum Neuladen
   }
-  if (!tonAn) stoppeAlarm();
+  if (!tonAn) {
+    stoppeAlarm();
+    stoppeSpruehen();
+  }
   zeigeTonKnopf();
 }
 
