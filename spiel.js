@@ -292,10 +292,17 @@ function waehleAntwort(antwort) {
     bonus = Math.round(restSekunden() / ZEIT.bonusAlle);
   }
 
+  // Anonym für die Fehler-Statistik zählen (statistik.js):
+  // Antwort 1, 2 oder 3 in der Reihenfolge von szenen.js
+  const nummer = SZENEN[szenenIndex].antworten.indexOf(antwort) + 1;
+  zaehleAntwort(szenenIndex + 1, "a" + nummer);
+
   verrechne(antwort, regel, bonus);
 }
 
 function zeitAbgelaufen() {
+  zaehleAntwort(szenenIndex + 1, "zeit");   // auch das zählt für die Statistik
+
   // Die Zeit zählt wie eine eigene, falsche „Antwort“
   const zuSpaet = { art: "zuSpaet", reaktion: ZEIT.zuSpaet.reaktion };
   verrechne(zuSpaet, ZEIT.zuSpaet, 0);
@@ -466,6 +473,8 @@ function initialisiere() {
   zeigeText("start-einleitung", TEXTE.einleitung);
   zeigeText("start-anleitung", TEXTE.anleitung);
   element("start-button").textContent = TEXTE.startButton;
+  // Hinweis auf die anonyme Statistik, nur wenn online gezählt wird
+  zeigeText("start-statistik-hinweis", BESTENLISTE.adresse !== "" ? TEXTE.statistikHinweis : "");
 
   // Feedback und Ende
   element("text-richtig-waere").textContent = TEXTE.richtigWaere;

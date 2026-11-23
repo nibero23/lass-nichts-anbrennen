@@ -14,6 +14,16 @@
         "datum":    { ".validate": "newData.val() === now" },
         "$anderes": { ".validate": false }
       }
+    },
+    "statistik": {
+      ".read": true,
+      "$szene": {
+        ".validate": "$szene.matches(/^s[0-9]{1,2}$/)",
+        "$antwort": {
+          ".write": true,
+          ".validate": "$antwort.matches(/^(a[1-9]|zeit)$/) && newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1"
+        }
+      }
     }
   }
 }

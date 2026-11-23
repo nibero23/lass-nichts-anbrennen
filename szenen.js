@@ -94,6 +94,8 @@ const TEXTE = {
   // Wenn ihr oben bei ZEIT oder ANTWORTARTEN etwas ändert, passt auch diesen Text an:
   anleitung:  "Für jede Situation hast du 25 Sekunden. Richtige Antworten bringen 10 Punkte, schnelle Antworten einen Zeitbonus. Falsche Entscheidungen und Zögern heizen den Hitze-Balken auf. Erreicht er 100 %, bricht ein Brand aus und du musst von vorne anfangen. Wer den Tag übersteht, kommt in die Bestenliste.",
   startButton: "Arbeitstag beginnen",
+  // Steht unter dem Start-Button, wenn die Online-Datenbank eingetragen ist:
+  statistikHinweis: "Für die Fehler-Statistik wird anonym gezählt, welche Antworten gewählt werden, ohne Namen. Gespeichert bei Google Firebase (Server in Belgien).",
 
   // Während des Spiels
   weiterButton: "Weiter",
@@ -150,7 +152,32 @@ const MINISPIELE = [
     seite:        "suchbild.html",
     rekord:       "lna-rekord-suchbild",
   },
+  {
+    titel:        "Häufigste Irrtümer",
+    beschreibung: "Statistik: Bei welchen Situationen liegen die meisten Spieler falsch? Anonym gezählt, ohne Namen.",
+    seite:        "statistik.html",
+  },
 ];
+
+
+// ---------------------------------------------------------------------
+// FEHLER-STATISTIK (statistik.html)
+// Funktioniert nur mit Online-Datenbank (BESTENLISTE.adresse).
+// ---------------------------------------------------------------------
+const STATISTIK = {
+  titel:         "Häufigste Irrtümer",
+  einleitung:    "So haben alle Spielerinnen und Spieler in der Prüfung geantwortet, anonym gezählt. Oben stehen die Situationen, bei denen am häufigsten falsch geantwortet wurde.",
+  laedtText:     "Statistik wird geladen …",
+  anzahlText:    "Ausgewertet: {anzahl} Antworten",   // {anzahl} wird durch die Zahl ersetzt
+  keineDaten:    "Noch keine Antworten gezählt. Spiel die Prüfung, dann erscheint hier die erste Statistik.",
+  nichtOnline:   "Die Statistik braucht die Online-Datenbank. Tragt bei BESTENLISTE die Adresse ein (siehe README.md).",
+  fehlerText:    "Die Statistik ist gerade nicht erreichbar. Versuch es später noch einmal.",
+  falschText:    "falsch",
+  antwortText:   "Antwort",     // Einzahl: „1 Antwort“
+  antwortenText: "Antworten",
+  richtigMarke:  "Richtig:",
+  zeitText:      "Zeit abgelaufen",
+};
 
 
 // ---------------------------------------------------------------------

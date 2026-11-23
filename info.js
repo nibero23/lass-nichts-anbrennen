@@ -1,10 +1,10 @@
 /* =====================================================================
    info.js  –  DIE LÖSUNGEN AUF DER INFO-SEITE
    =====================================================================
-   Das Hintergrundwissen auf der Info-Seite ist immer frei – erst lernen,
-   dann die Prüfung. Nur der Abschnitt „Alle Situationen aus dem Spiel“
-   verrät die Lösungen. Er erscheint erst, wenn in diesem Browser die
-   Prüfung einmal gespielt wurde.
+   Das Grundwissen auf der Info-Seite ist immer frei – erst lernen,
+   dann die Prüfung. Der Teil „Richtig handeln und Lösungen“ verrät die
+   Antworten. Er erscheint erst, wenn in diesem Browser die Prüfung
+   einmal gespielt wurde.
 
    Die Lösungen baut info.js aus szenen.js als aufklappbare Kästen:
    Situation, richtige Antwort und Erklärung. So stehen die Texte nur
@@ -46,15 +46,16 @@ function baueSzenenListe() {
 
 // wurdeGespielt() steht in gemeinsam.js
 if (wurdeGespielt()) {
-  // Hat szenen.js einen Tippfehler, fehlt nur dieser Abschnitt –
+  document.getElementById("nachher").hidden = false;
+
+  // Hat szenen.js einen Tippfehler, fehlt nur die Lösungsliste –
   // der Rest der Info-Seite funktioniert trotzdem.
   try {
     baueSzenenListe();
-    document.getElementById("loesungen").hidden = false;
   } catch (fehler) {
     document.getElementById("spiel").hidden = true;
     console.error("Lösungen konnten nicht gebaut werden:", fehler);
   }
 } else {
-  document.getElementById("loesungen-gesperrt").hidden = false;
+  document.getElementById("nachher-gesperrt").hidden = false;
 }

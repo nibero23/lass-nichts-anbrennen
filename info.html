@@ -10,18 +10,22 @@
 <body class="info-seite">
 
   <!-- =================================================================
-       INFO-SEITE: Hintergrundwissen zum Spiel
+       INFO-SEITE: Wissen zum Brandschutz
        Die Texte könnt ihr direkt hier ändern: Text steht zwischen
        <p> und </p>, Listenpunkte zwischen <li> und </li>.
+
+       Die Seite hat zwei Teile:
+       1. GRUNDWISSEN – immer frei. Hier darf nichts stehen, was eine
+          Antwort aus der Prüfung verrät.
+       2. RICHTIG HANDELN UND LÖSUNGEN – erst nach der Prüfung
+          (info.js schaltet frei).
        ================================================================= -->
 
   <main>
     <a class="zurueck-link" href="index.html">← Zurück zum Spiel</a>
 
     <h1 tabindex="-1">Wissen zum Brandschutz</h1>
-    <p class="untertitel">Die Hintergründe zu den Situationen im Spiel</p>
-
-    <div id="info-inhalt">
+    <p class="untertitel">Grundwissen zum Lernen vor der Prüfung</p>
 
     <!-- Inhaltsverzeichnis: springt zu den Abschnitten weiter unten -->
     <nav class="inhalt" aria-label="Inhalt">
@@ -29,13 +33,15 @@
       <a href="#branddreieck">Branddreieck</a>
       <a href="#rauch">Rauch</a>
       <a href="#vorbeugen">Vorbeugen</a>
-      <a href="#akkus">Akkus</a>
-      <a href="#ernstfall">Im Ernstfall</a>
       <a href="#brandklassen">Brandklassen</a>
-      <a href="#spiel">Lösungen</a>
       <a href="#materialien">Materialien</a>
+      <a href="#nach-der-pruefung">Richtig handeln und Lösungen</a>
     </nav>
 
+
+    <!-- =================================================================
+         TEIL 1: GRUNDWISSEN (immer frei)
+         ================================================================= -->
 
     <!-- ===== ZAHLEN ===== -->
     <section id="zahlen" class="info-abschnitt">
@@ -79,11 +85,11 @@
         </svg>
         <div>
           <p>Ein Feuer braucht drei Dinge <strong>gleichzeitig, am selben Ort und im passenden Mengenverhältnis</strong>: etwas Brennbares, Sauerstoff und eine Zündquelle. Fehlt eine Seite, geht das Feuer aus oder entsteht gar nicht erst.</p>
-          <p>Darum funktioniert jedes Löschen so, dass mindestens eine Seite weggenommen wird. Beispiele aus dem Spiel:</p>
+          <p>Darum funktioniert jedes Löschen so, dass mindestens eine Seite weggenommen wird. Beispiele aus dem Alltag:</p>
           <ul>
-            <li><strong>Deckel auf die brennende Pfanne:</strong> Der Sauerstoff fehlt.</li>
-            <li><strong>Herd ausschalten, Heizlüfter abziehen:</strong> Die Wärme als Zündquelle fehlt.</li>
-            <li><strong>Kartons wegräumen:</strong> Der brennbare Stoff fehlt.</li>
+            <li><strong>Ein Glas über ein Teelicht stülpen:</strong> Der Sauerstoff fehlt.</li>
+            <li><strong>Ein Lagerfeuer mit Wasser löschen:</strong> Das Wasser kühlt, die Wärme fehlt.</li>
+            <li><strong>Den Gashahn am Gasgrill zudrehen:</strong> Der brennbare Stoff fehlt.</li>
           </ul>
         </div>
       </div>
@@ -93,7 +99,7 @@
     <!-- ===== RAUCH ===== -->
     <section id="rauch" class="info-abschnitt">
       <h2>Rauch ist gefährlicher als die Flammen</h2>
-      <p>Bei einem Brand entstehen giftige Gase, zum Beispiel Kohlenmonoxid, Kohlendioxid, Ammoniak und Chlorwasserstoff, dazu Ruß und Asche. Schon <strong>wenige Atemzüge</strong> von stark giftigem Rauch können bewusstlos machen oder sogar tödlich sein.</p>
+      <p>Bei einem Brand entstehen giftige Gase, zum Beispiel Kohlenmonoxid, Kohlendioxid, Ammoniak und Chlorwasserstoff, dazu Ruß und Asche. Schon <strong>wenige Atemzüge</strong> von stark giftigem Rauch können bewusstlos machen oder sogar tödlich sein. Im Brandfall bleiben oft nur wenige Minuten zur Flucht.</p>
       <div class="kaesten">
         <div class="kasten">
           <h3>Kohlenmonoxid (CO)</h3>
@@ -104,7 +110,6 @@
           <p>Entsteht bei vollständiger Verbrennung. Ebenfalls unsichtbar und geruchlos. Es ist schwerer als Luft, sammelt sich am Boden und verdrängt dort den Sauerstoff.</p>
         </div>
       </div>
-      <p>Deshalb im Spiel: Bei Rauch unter der Tür die <strong>Tür geschlossen lassen</strong>, auch nicht einen Spalt öffnen, und sofort Alarm auslösen. Wird die Tür geöffnet, strömen Rauch und Hitze heraus und das Feuer bekommt frischen Sauerstoff. Im Brandfall bleiben oft nur wenige Minuten zur Flucht.</p>
     </section>
 
 
@@ -115,7 +120,7 @@
       <div class="kaesten">
         <div class="kasten">
           <h3>Baulich</h3>
-          <p>Wie das Gebäude gebaut ist, zum Beispiel <strong>Brandschutztüren</strong>. Eine T30-Tür hält Feuer und Rauch 30 Minuten auf, aber nur, wenn sie zu ist. Deshalb nie verkeilen. Soll sie offen stehen, braucht sie eine zugelassene Feststellanlage, die bei Rauch automatisch schließt.</p>
+          <p>Wie das Gebäude gebaut ist, zum Beispiel Brandwände und <strong>Brandschutztüren</strong>. Eine T30-Tür hält Feuer und Rauch 30 Minuten auf.</p>
         </div>
         <div class="kasten">
           <h3>Technisch</h3>
@@ -123,7 +128,7 @@
         </div>
         <div class="kasten">
           <h3>Organisatorisch</h3>
-          <p>Regeln und Zuständigkeiten. Alle Beschäftigten werden regelmäßig unterwiesen: Wo lauern Brandgefahren, wie wird Alarm ausgelöst, wo sind Fluchtwege und Sammelstelle? Der Flucht- und Rettungsplan zeigt deinen Standort, die Fluchtwege, Feuerlöscher und die Sammelstelle.</p>
+          <p>Regeln und Zuständigkeiten, zum Beispiel regelmäßige Unterweisungen, ein Alarmplan sowie Flucht- und Rettungspläne.</p>
         </div>
       </div>
 
@@ -132,67 +137,7 @@
         <li><strong>Arbeitgeber:</strong> trägt die Verantwortung, beurteilt die Gefahren, sorgt für Unterweisungen und Wartung.</li>
         <li><strong>Brandschutzbeauftragte:</strong> sind Ansprechpersonen und halten Kontakt zu Feuerwehr und Behörden.</li>
         <li><strong>Brandschutzhelferinnen und -helfer:</strong> mindestens 5 % der Beschäftigten. Sie sind im Umgang mit Feuerlöschern geschult und helfen bei der Räumung.</li>
-        <li><strong>Du:</strong> Fluchtwege in voller Breite freihalten, Brandschutztüren nicht verkeilen, Gefahren melden, zum Beispiel eine aufgeblähte Powerbank oder hintereinander gesteckte Steckdosenleisten.</li>
       </ul>
-    </section>
-
-
-    <!-- ===== AKKUS ===== -->
-    <section id="akkus" class="info-abschnitt">
-      <h2>Akkus sicher laden und entsorgen</h2>
-      <p>Lithium-Ionen-Akkus stecken in Handys, Powerbanks, Laptops und E-Bikes. Sind sie beschädigt oder werden sie falsch geladen, können sie in Brand geraten, manchmal erst Stunden oder Tage später.</p>
-      <ul>
-        <li>Nur mit dem <strong>passenden Original-Ladegerät</strong> laden.</li>
-        <li><strong>Nicht unbeaufsichtigt</strong> laden.</li>
-        <li><strong>Nicht in Fluren oder Treppenhäusern</strong> laden oder abstellen. Das sind Fluchtwege.</li>
-        <li><strong>Aufgeblähte oder beschädigte Akkus</strong> nicht mehr benutzen, auf einer nicht brennbaren Unterlage lagern und an einer Akku-Sammelstelle abgeben. Nie in den Hausmüll.</li>
-      </ul>
-    </section>
-
-
-    <!-- ===== IM ERNSTFALL ===== -->
-    <section id="ernstfall" class="info-abschnitt">
-      <h2>Im Ernstfall: Ruhe bewahren</h2>
-      <ol class="schritte">
-        <li><strong>Jeden Alarm ernst nehmen,</strong> auch wenn es eine Übung sein könnte.</li>
-        <li><strong>Brand melden:</strong> Handfeuermelder drücken oder 112 anrufen.</li>
-        <li><strong>Andere warnen</strong> und Hilfsbedürftigen helfen.</li>
-        <li><strong>Türen schließen,</strong> damit sich Feuer und Rauch nicht ausbreiten.</li>
-        <li><strong>Den grünen Rettungszeichen folgen</strong> und die Treppe nehmen, <strong>niemals den Aufzug</strong>. Er kann stecken bleiben oder in ein verrauchtes Stockwerk fahren.</li>
-        <li><strong>Zur Sammelstelle gehen</strong> und melden, wenn jemand fehlt. Nicht selbst zurück ins Gebäude laufen.</li>
-        <li><strong>Selbst löschen nur,</strong> wenn du dich dabei nicht in Gefahr bringst.</li>
-      </ol>
-
-      <div class="kasten notruf">
-        <h3>Notruf 112</h3>
-        <p>Als Erstes sagen, <strong>wo</strong> der Notfall ist: Ort, Straße, Hausnummer, Gebäude, Stockwerk. Dann <strong>nicht auflegen</strong>, sondern auf die Fragen der Leitstelle warten, zum Beispiel:</p>
-        <ul>
-          <li>Was ist genau passiert?</li>
-          <li>Wie viele Personen sind betroffen?</li>
-          <li>Wer ruft an?</li>
-        </ul>
-      </div>
-
-      <div class="kaesten ernstfall-kaesten">
-        <div class="kasten">
-          <h3>Feuerlöscher richtig einsetzen</h3>
-          <ul>
-            <li>Erst alarmieren, dann löschen.</li>
-            <li>Den Fluchtweg im Rücken behalten.</li>
-            <li>Auf die Glut zielen, nicht auf die Flammen.</li>
-            <li>In kurzen Stößen löschen.</li>
-            <li>Brennende Gegenstände nie herumtragen.</li>
-          </ul>
-        </div>
-        <div class="kasten">
-          <h3>Erste Hilfe bei kleinen Brandwunden</h3>
-          <ul>
-            <li>Etwa 10 bis 15 Minuten unter handwarmes Wasser (ca. 15 bis 20 °C) halten.</li>
-            <li>Kein Eis, keine Cremes, Salben oder Hausmittel.</li>
-            <li>Große Brandwunden nicht kühlen, sondern keimfrei abdecken und den Rettungsdienst rufen.</li>
-          </ul>
-        </div>
-      </div>
     </section>
 
 
@@ -213,28 +158,6 @@
             <tr><td>F</td><td>Speiseöle und -fette</td><td>Fett in Pfanne oder Fritteuse</td></tr>
           </tbody>
         </table>
-      </div>
-      <p><strong>Achtung bei Klasse F:</strong> Wasser auf brennendem Fett verdampft schlagartig und reißt das Fett mit. Es kommt zu einer Fettexplosion. Das gilt auch für ein nasses Tuch. Richtig: Herd aus, Deckel drauf oder einen Fettbrandlöscher benutzen.</p>
-    </section>
-
-
-    <!-- ===== LÖSUNGEN AUS DEM SPIEL =====
-         Diese Liste baut info.js automatisch aus szenen.js.
-         Ändert ihr dort einen Text, ändert er sich hier mit.
-         Sie erscheint erst, wenn die Prüfung einmal gespielt wurde. -->
-    <section id="spiel" class="info-abschnitt">
-      <h2>Alle Situationen aus dem Spiel</h2>
-
-      <!-- Solange die Prüfung noch nicht gespielt wurde -->
-      <div id="loesungen-gesperrt" class="kasten gesperrt" hidden>
-        <h3>Erst die Prüfung, dann die Lösungen</h3>
-        <p>Die Lösungen siehst du hier, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
-        <a class="haupt-button" href="index.html">Zur Prüfung</a>
-      </div>
-
-      <div id="loesungen" hidden>
-        <p class="hinweis">Achtung, hier stehen die Lösungen.</p>
-        <div id="szenen-liste" class="szenen-liste"></div>
       </div>
     </section>
 
@@ -268,6 +191,117 @@
     </section>
 
 
+    <!-- =================================================================
+         TEIL 2: RICHTIG HANDELN UND LÖSUNGEN (erst nach der Prüfung)
+         info.js zeigt entweder den Sperr-Kasten oder den Inhalt.
+         ================================================================= -->
+    <div id="nach-der-pruefung" class="nach-der-pruefung">
+
+      <!-- Solange die Prüfung noch nicht gespielt wurde -->
+      <section id="nachher-gesperrt" class="info-abschnitt" hidden>
+        <h2>Richtig handeln und Lösungen</h2>
+        <div class="kasten gesperrt">
+          <h3>Erst die Prüfung, dann die Antworten</h3>
+          <p>Hier steht, wie du dich in den Situationen aus dem Spiel richtig verhältst, und alle Lösungen. Das siehst du, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
+          <a class="haupt-button" href="index.html">Zur Prüfung</a>
+        </div>
+      </section>
+
+      <div id="nachher" hidden>
+
+        <!-- ===== DEINE AUFGABEN UND AKKUS ===== -->
+        <section id="handeln" class="info-abschnitt">
+          <h2>Richtig handeln im Alltag</h2>
+          <p class="hinweis">Ab hier stehen die Antworten zur Prüfung.</p>
+
+          <h3 class="zwischen-ueberschrift">Deine Aufgaben im Betrieb</h3>
+          <ul>
+            <li><strong>Fluchtwege und Notausgänge</strong> in voller Breite freihalten.</li>
+            <li><strong>Brandschutztüren nie verkeilen.</strong> Soll eine offen stehen, braucht sie eine zugelassene Feststellanlage, die bei Rauch automatisch schließt.</li>
+            <li><strong>Gefahren melden,</strong> zum Beispiel hintereinander gesteckte Steckdosenleisten oder eine aufgeblähte Powerbank.</li>
+            <li><strong>Den Flucht- und Rettungsplan kennen:</strong> deinen Standort, die Fluchtwege, Feuerlöscher und die Sammelstelle.</li>
+          </ul>
+
+          <h3 class="zwischen-ueberschrift">Akkus sicher laden und entsorgen</h3>
+          <p>Lithium-Ionen-Akkus stecken in Handys, Powerbanks, Laptops und E-Bikes. Sind sie beschädigt oder werden sie falsch geladen, können sie in Brand geraten, manchmal erst Stunden oder Tage später.</p>
+          <ul>
+            <li>Nur mit dem <strong>passenden Original-Ladegerät</strong> laden.</li>
+            <li><strong>Nicht unbeaufsichtigt</strong> laden.</li>
+            <li><strong>Nicht in Fluren oder Treppenhäusern</strong> laden oder abstellen. Das sind Fluchtwege.</li>
+            <li><strong>Aufgeblähte oder beschädigte Akkus</strong> nicht mehr benutzen, auf einer nicht brennbaren Unterlage lagern und an einer Akku-Sammelstelle abgeben. Nie in den Hausmüll.</li>
+          </ul>
+
+          <h3 class="zwischen-ueberschrift">Das Branddreieck im Spiel</h3>
+          <ul>
+            <li><strong>Deckel auf die brennende Pfanne:</strong> Der Sauerstoff fehlt.</li>
+            <li><strong>Herd ausschalten, Heizlüfter abziehen:</strong> Die Wärme als Zündquelle fehlt.</li>
+            <li><strong>Kartons wegräumen:</strong> Der brennbare Stoff fehlt.</li>
+          </ul>
+        </section>
+
+        <!-- ===== IM ERNSTFALL ===== -->
+        <section id="ernstfall" class="info-abschnitt">
+          <h2>Im Ernstfall: Ruhe bewahren</h2>
+          <ol class="schritte">
+            <li><strong>Jeden Alarm ernst nehmen,</strong> auch wenn es eine Übung sein könnte.</li>
+            <li><strong>Brand melden:</strong> Handfeuermelder drücken oder 112 anrufen.</li>
+            <li><strong>Andere warnen</strong> und Hilfsbedürftigen helfen.</li>
+            <li><strong>Türen schließen,</strong> damit sich Feuer und Rauch nicht ausbreiten. Dringt Rauch unter einer Tür hervor, die Tür geschlossen lassen, auch nicht einen Spalt öffnen: Sonst strömen Rauch und Hitze heraus und das Feuer bekommt frischen Sauerstoff.</li>
+            <li><strong>Den grünen Rettungszeichen folgen</strong> und die Treppe nehmen, <strong>niemals den Aufzug</strong>. Er kann stecken bleiben oder in ein verrauchtes Stockwerk fahren.</li>
+            <li><strong>Zur Sammelstelle gehen</strong> und melden, wenn jemand fehlt. Nicht selbst zurück ins Gebäude laufen.</li>
+            <li><strong>Selbst löschen nur,</strong> wenn du dich dabei nicht in Gefahr bringst.</li>
+          </ol>
+
+          <div class="kasten notruf">
+            <h3>Notruf 112</h3>
+            <p>Als Erstes sagen, <strong>wo</strong> der Notfall ist: Ort, Straße, Hausnummer, Gebäude, Stockwerk. Dann <strong>nicht auflegen</strong>, sondern auf die Fragen der Leitstelle warten, zum Beispiel:</p>
+            <ul>
+              <li>Was ist genau passiert?</li>
+              <li>Wie viele Personen sind betroffen?</li>
+              <li>Wer ruft an?</li>
+            </ul>
+          </div>
+
+          <div class="kaesten ernstfall-kaesten">
+            <div class="kasten">
+              <h3>Feuerlöscher richtig einsetzen</h3>
+              <ul>
+                <li>Erst alarmieren, dann löschen.</li>
+                <li>Den Fluchtweg im Rücken behalten.</li>
+                <li>Auf die Glut zielen, nicht auf die Flammen.</li>
+                <li>In kurzen Stößen löschen.</li>
+                <li>Brennende Gegenstände nie herumtragen.</li>
+              </ul>
+            </div>
+            <div class="kasten">
+              <h3>Erste Hilfe bei kleinen Brandwunden</h3>
+              <ul>
+                <li>Etwa 10 bis 15 Minuten unter handwarmes Wasser (ca. 15 bis 20 °C) halten.</li>
+                <li>Kein Eis, keine Cremes, Salben oder Hausmittel.</li>
+                <li>Große Brandwunden nicht kühlen, sondern keimfrei abdecken und den Rettungsdienst rufen.</li>
+              </ul>
+            </div>
+          </div>
+
+          <p><strong>Achtung bei Fettbrand (Klasse F):</strong> Wasser auf brennendem Fett verdampft schlagartig und reißt das Fett mit. Es kommt zu einer Fettexplosion. Das gilt auch für ein nasses Tuch. Richtig: Herd aus, Deckel drauf oder einen Fettbrandlöscher benutzen.</p>
+        </section>
+
+        <!-- ===== LÖSUNGEN AUS DEM SPIEL =====
+             Diese Liste baut info.js automatisch aus szenen.js.
+             Ändert ihr dort einen Text, ändert er sich hier mit. -->
+        <section id="spiel" class="info-abschnitt">
+          <h2>Alle Situationen aus dem Spiel</h2>
+          <div id="szenen-liste" class="szenen-liste"></div>
+        </section>
+
+      </div><!-- Ende von nachher -->
+    </div><!-- Ende von nach-der-pruefung -->
+
+    <noscript>
+      <p class="fehler">Der Teil „Richtig handeln und Lösungen“ braucht JavaScript. Bitte im Browser aktivieren.</p>
+    </noscript>
+
+
     <!-- ===== QUELLEN ===== -->
     <section class="info-abschnitt quellen">
       <h2>Quellen</h2>
@@ -280,12 +314,6 @@
     </section>
 
     <a class="haupt-button" href="index.html">Zurück zum Spiel</a>
-
-    </div><!-- Ende von info-inhalt -->
-
-    <noscript>
-      <p class="fehler">Die Lösungen brauchen JavaScript. Bitte im Browser aktivieren.</p>
-    </noscript>
   </main>
 
   <!-- szenen.js liefert die Texte für „Alle Situationen aus dem Spiel“ -->

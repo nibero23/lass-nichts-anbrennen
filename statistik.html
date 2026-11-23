@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Häufigste Irrtümer – Lass nichts anbrennen</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="info-seite">
+  <main>
+    <a class="zurueck-link" href="index.html">← Menü</a>
+
+    <!-- Erscheint nur, wenn in szenen.js ein Tippfehler ist -->
+    <div id="fehler" class="fehler" role="alert" hidden></div>
+
+    <h1 id="stat-titel" tabindex="-1"></h1>
+    <p id="stat-einleitung" class="untertitel"></p>
+
+    <!-- Solange die Prüfung noch nicht gespielt wurde (die Seite zeigt die Lösungen) -->
+    <div id="gesperrt" class="kasten gesperrt" hidden>
+      <h2>Erst die Prüfung!</h2>
+      <p>Die Statistik zeigt die richtigen Antworten. Du siehst sie, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
+      <a class="haupt-button" href="index.html">Zur Prüfung</a>
+    </div>
+
+    <p id="stat-meldung" class="ende-punkte" hidden></p>
+    <!-- Hier baut statistik.js einen Kasten pro Szene, sortiert nach Fehlerquote -->
+    <div id="stat-liste" class="stat-liste"></div>
+
+    <a class="haupt-button" href="index.html">Zum Hauptmenü</a>
+  </main>
+
+  <script src="pruefung.js"></script>
+  <script src="szenen.js"></script>
+  <script src="gemeinsam.js"></script>
+  <script src="statistik.js"></script>
+  <script>
+    // szenen.js prüfen, dann die Statistik zeigen (statistik.js)
+    const gefundeneFehler = pruefeSzenenDatei();
+    if (gefundeneFehler.length > 0) {
+      zeigeFehler(gefundeneFehler);
+    } else {
+      initialisiereStatistik();
+    }
+  </script>
+</body>
+</html>

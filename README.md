@@ -23,8 +23,10 @@ Du bist neuer Azubi und triffst an deinem ersten Arbeitstag 13 Entscheidungen �
 | `suchbild.html` | Trainingsspiel „Finde die Mängel“ |
 | `suchbild.js` | Ablauf des Suchbilds: Antippen, Strafzeit, Tipp, Rekord |
 | `suchbild-zeichnung.js` | Die Zeichnung des Suchbilds (SVG aus Code) mit den 8 Mängeln |
-| `info.html` | Zweite Seite „Wissen zum Brandschutz“: immer frei, nur die Lösungen erst nach der Prüfung |
-| `info.js` | Zeigt die Lösungen erst nach der Prüfung und baut sie aus `szenen.js` |
+| `statistik.html` | Seite „Häufigste Irrtümer“: anonyme Auswertung aller Antworten |
+| `statistik.js` | Zählt in der Prüfung anonym die gewählten Antworten und zeigt die Auswertung |
+| `info.html` | Zweite Seite „Wissen zum Brandschutz“: Grundwissen immer frei, „Richtig handeln und Lösungen“ erst nach der Prüfung |
+| `info.js` | Schaltet „Richtig handeln und Lösungen“ nach der Prüfung frei und baut die Lösungen aus `szenen.js` |
 | `firebase-regeln.json` | Regeln für die Online-Bestenliste (siehe unten) |
 | `bilder/` | Animierte Szenen (`.svg`), auf Wunsch durch eigene Fotos ersetzbar |
 
@@ -53,6 +55,8 @@ Der Startbildschirm ist zugleich das Hauptmenü. Unter der Prüfung stehen die I
 
 **Finde die Mängel (`suchbild.html`):** In einem gezeichneten Büro mit Flur stecken 8 Brandschutz-Mängel. Antippen behebt sie: Kartons werden weggeräumt, die Brandschutztür fällt zu, die Pflanze vor dem Feuerlöscher verschwindet. Daneben tippen kostet 5 Sekunden, ein Tipp 15 Sekunden. Gewertet wird die Zeit. Auf dem Handy ist das Bild breiter als der Bildschirm und lässt sich seitlich wischen, damit alles groß genug zum Antippen ist. Die Texte zu den Mängeln stehen in `szenen.js` unter `SUCHBILD`.
 
+**Häufigste Irrtümer (`statistik.html`):** Bei jeder Antwort in der Prüfung zählt das Spiel anonym, welche der drei Antworten gewählt wurde oder ob die Zeit abgelaufen ist. Gespeichert werden nur Zähler in Firebase (z. B. „Szene 8, Antwort 1: 17-mal“), keine Namen und keine Kennungen. Auf dem Startbildschirm steht ein Hinweis darauf. Die Seite zeigt alle Szenen sortiert nach Fehlerquote mit einem Balken pro Antwort. Weil sie die richtigen Antworten zeigt, ist sie erst nach der Prüfung frei. Ohne Online-Datenbank wird nichts gezählt. Werden Szenen oder Antworten in `szenen.js` umsortiert, passen die alten Zähler nicht mehr: dann in der Firebase-Konsole den Eintrag `statistik` löschen.
+
 ## Texte ändern
 
 Alles steht in `szenen.js`. Die Regeln dafür stehen ganz oben in der Datei. Die drei wichtigsten:
@@ -80,7 +84,7 @@ Solange in `szenen.js` bei `BESTENLISTE` keine `adresse` steht, speichert jedes 
 Eingerichtet ist die Datenbank `https://feuergame-b8f2c-default-rtdb.europe-west1.firebasedatabase.app` (Projekt `feuergame-b8f2c`, Standort Belgien).
 5. Einmal durchspielen und eintragen. Der Eintrag erscheint dann in Firebase unter **Daten**.
 
-Was die Regeln erlauben: Jeder darf die Liste lesen und neue Einträge hinzufügen, aber keine fremden Einträge ändern oder löschen. Namen dürfen höchstens 20 Zeichen lang sein, Punkte höchstens 200 (bei mehr Szenen in `firebase-regeln.json` erhöhen).
+Was die Regeln erlauben: Jeder darf die Bestenliste lesen und neue Einträge hinzufügen, aber keine fremden Einträge ändern oder löschen. Die Zähler der Statistik darf jeder lesen und immer nur um genau 1 erhöhen. Namen dürfen höchstens 20 Zeichen lang sein, Punkte höchstens 200 (bei mehr Szenen in `firebase-regeln.json` erhöhen).
 
 **Wichtig:**
 - **Unpassende Namen** könnt nur ihr löschen: in der Firebase-Konsole unter **Daten** beim Eintrag auf das Mülleimer-Symbol.
@@ -89,7 +93,7 @@ Was die Regeln erlauben: Jeder darf die Liste lesen und neue Einträge hinzufüg
 
 ## Info-Seite
 
-`info.html` zeigt Hintergrundwissen und die Materialien der JWSL. Die Seite ist immer frei, damit man vor der Prüfung lernen kann. Nur der Abschnitt „Alle Situationen aus dem Spiel“ mit den Lösungen ist gesperrt, bis man die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hat. Am Ende der Prüfung springt der Link „Alle Lösungen ansehen“ direkt dorthin. Gespeichert wird das im Browser (`localStorage`), es gilt also pro Gerät.
+`info.html` hat zwei Teile. **Grundwissen** (Zahlen, Branddreieck, Rauch, vorbeugender Brandschutz, Brandklassen, JWSL-Materialien) ist immer frei, damit man vor der Prüfung lernen kann. Dort darf nichts stehen, was eine Antwort aus der Prüfung verrät. **Richtig handeln und Lösungen** (Akkus, Verhalten im Ernstfall, Notruf, Feuerlöscher, Erste Hilfe, Fettbrand und alle Situationen mit Lösung) ist gesperrt, bis man die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hat. Am Ende der Prüfung springt der Link „Alle Lösungen ansehen“ direkt dorthin. Gespeichert wird das im Browser (`localStorage`), es gilt also pro Gerät.
 
 Die Texte stehen direkt in `info.html` zwischen `<p>` und `</p>` bzw. `<li>` und `</li>`. Der Abschnitt „Alle Situationen aus dem Spiel“ entsteht automatisch aus `szenen.js`.
 
