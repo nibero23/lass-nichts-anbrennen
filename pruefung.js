@@ -41,7 +41,8 @@ function pruefeSzenenDatei() {
   //    Bei einem Tippfehler gibt es diese Namen nicht, und schon der
   //    Zugriff darauf löst einen Fehler aus, den wir hier auffangen.
   try {
-    if (!ANTWORTARTEN || !ZEIT || !BESTENLISTE || !TEXTE || !TITEL || !CREDITS || !SZENEN) {
+    if (!ANTWORTARTEN || !ZEIT || !BESTENLISTE || !TEXTE || !TITEL || !CREDITS || !SZENEN ||
+        !MINISPIELE || !SUCHBILD) {
       return ["In szenen.js ist einer der Abschnitte leer."];
     }
   } catch (fehler) {
@@ -72,6 +73,13 @@ function pruefeSzenenDatei() {
     if (typeof regel.punkte !== "number" || typeof regel.hitze !== "number") {
       meldungen.push("Antwortart „" + art + "“: punkte und hitze müssen Zahlen ohne Anführungszeichen sein, z. B. hitze: 20,");
     }
+  }
+
+  if (!Array.isArray(MINISPIELE)) {
+    meldungen.push("MINISPIELE muss eine Liste sein: [ … ]");
+  }
+  if (!Array.isArray(SUCHBILD.maengel) || SUCHBILD.maengel.length === 0) {
+    meldungen.push("SUCHBILD: Bei maengel steht kein Mangel.");
   }
 
   if (!Array.isArray(TITEL) || TITEL.length === 0) {

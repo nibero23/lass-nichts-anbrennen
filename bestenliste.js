@@ -99,14 +99,7 @@ async function speichereEintrag(eintrag) {
 // ANZEIGEN
 // ---------------------------------------------------------------------
 
-// Macht aus 263.4 Sekunden „4:23 min“
-function formatiereZeit(sekunden) {
-  const ganz = Math.round(sekunden);
-  const minuten = Math.floor(ganz / 60);
-  const rest = String(ganz % 60).padStart(2, "0");
-  return minuten + ":" + rest + " min";
-}
-
+// (formatiereZeit steht in gemeinsam.js)
 function zeigeListe(liste, eigenerEintrag) {
   const zeilen = document.getElementById("bestenliste-zeilen");
   zeilen.replaceChildren();

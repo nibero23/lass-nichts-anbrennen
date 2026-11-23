@@ -1,11 +1,14 @@
 /* =====================================================================
-   info.js  –  SPERRE UND LÖSUNGEN DER INFO-SEITE
+   info.js  –  DIE LÖSUNGEN AUF DER INFO-SEITE
    =====================================================================
-   1. Die Info-Seite verrät die Lösungen. Deshalb zeigt sie ihren Inhalt
-      erst, wenn in diesem Browser einmal zu Ende gespielt wurde.
-   2. Danach baut sie aus szenen.js aufklappbare Kästen:
-      Situation, richtige Antwort und Erklärung.
-      So stehen die Texte nur an einer Stelle (szenen.js).
+   Das Hintergrundwissen auf der Info-Seite ist immer frei – erst lernen,
+   dann die Prüfung. Nur der Abschnitt „Alle Situationen aus dem Spiel“
+   verrät die Lösungen. Er erscheint erst, wenn in diesem Browser die
+   Prüfung einmal gespielt wurde.
+
+   Die Lösungen baut info.js aus szenen.js als aufklappbare Kästen:
+   Situation, richtige Antwort und Erklärung. So stehen die Texte nur
+   an einer Stelle (szenen.js).
    ===================================================================== */
 
 "use strict";
@@ -41,28 +44,17 @@ function baueSzenenListe() {
   }
 }
 
-// Wurde das Spiel in diesem Browser schon einmal zu Ende gespielt?
-// spiel.js speichert das als „lna-gespielt“. Ist Speichern im Browser
-// verboten, lassen wir die Seite lieber offen als sie für immer zu sperren.
-function wurdeGespielt() {
-  try {
-    return localStorage.getItem("lna-gespielt") === "ja";
-  } catch (fehler) {
-    return true;
-  }
-}
-
+// wurdeGespielt() steht in gemeinsam.js
 if (wurdeGespielt()) {
-  document.getElementById("info-inhalt").hidden = false;
-
   // Hat szenen.js einen Tippfehler, fehlt nur dieser Abschnitt –
   // der Rest der Info-Seite funktioniert trotzdem.
   try {
     baueSzenenListe();
+    document.getElementById("loesungen").hidden = false;
   } catch (fehler) {
     document.getElementById("spiel").hidden = true;
     console.error("Lösungen konnten nicht gebaut werden:", fehler);
   }
 } else {
-  document.getElementById("gesperrt").hidden = false;
+  document.getElementById("loesungen-gesperrt").hidden = false;
 }

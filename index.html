@@ -51,6 +51,13 @@
       <p id="start-einleitung"></p>
       <p id="start-anleitung"></p>
       <button id="start-button" class="haupt-button" type="button"></button>
+
+      <!-- Hauptmenü: Trainingsspiele und Info-Seite (spiel.js → zeigeMenue) -->
+      <div class="menue">
+        <h2 id="menue-ueberschrift"></h2>
+        <p id="menue-hinweis" class="bestenliste-hinweis"></p>
+        <div id="menue-liste" class="menue-liste"></div>
+      </div>
     </section>
 
     <!-- ===== 2. SZENE: Foto, Situation, Antwort-Buttons ===== -->
@@ -91,7 +98,8 @@
       </div>
       <button id="feedback-weiter" class="haupt-button" type="button"></button>
       <!-- nur nach einem Brand sichtbar -->
-      <a id="feedback-info-link" class="info-link" href="info.html"></a>
+      <a id="feedback-info-link" class="info-link" href="info.html#spiel"></a>
+      <button id="feedback-menue-button" class="link-button" type="button" hidden></button>
     </section>
 
     <!-- ===== 4. ENDBILDSCHIRM ===== -->
@@ -121,7 +129,8 @@
       </div>
 
       <button id="nochmal-button" class="haupt-button" type="button"></button>
-      <a id="ende-info-link" class="info-link" href="info.html"></a>
+      <a id="ende-info-link" class="info-link" href="info.html#spiel"></a>
+      <button id="menue-button" class="link-button" type="button"></button>
       <footer class="credits">
         <ul id="credits-liste"></ul>
       </footer>
@@ -144,11 +153,13 @@
   <!-- Reihenfolge ist wichtig:
        1. pruefung.js passt auf Tippfehler in szenen.js auf
        2. szenen.js enthält alle Texte und Einstellungen
-       3. ton.js erzeugt die Töne (richtig, falsch, Feueralarm)
-       4. bestenliste.js speichert und zeigt die Bestenliste
-       5. spiel.js startet das Spiel -->
+       3. gemeinsam.js enthält Hilfsfunktionen für alle Seiten
+       4. ton.js erzeugt die Töne (richtig, falsch, Feueralarm)
+       5. bestenliste.js speichert und zeigt die Bestenliste
+       6. spiel.js startet das Spiel -->
   <script src="pruefung.js"></script>
   <script src="szenen.js"></script>
+  <script src="gemeinsam.js"></script>
   <script src="ton.js"></script>
   <script src="bestenliste.js"></script>
   <script src="spiel.js"></script>

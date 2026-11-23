@@ -37,12 +37,6 @@ const BRENNDAUER = 2600;
 const ALARMDAUER = 7;
 
 
-// Kurzform: holt ein Element aus index.html über seine id
-function element(id) {
-  return document.getElementById(id);
-}
-
-
 // ---------------------------------------------------------------------
 // 2. BILDSCHIRM WECHSELN
 //    In index.html gibt es vier <section class="bildschirm">.
@@ -111,13 +105,6 @@ function zeigeFoto(rahmenId, pfad, beschreibung) {
 }
 
 
-// Zeigt einen Text an – oder versteckt das Element, wenn der Text leer ist
-function zeigeText(id, text) {
-  element(id).textContent = text || "";
-  element(id).hidden = !text;
-}
-
-
 // Mischt eine Liste (Fisher-Yates-Verfahren): jede Reihenfolge ist gleich
 // wahrscheinlich. So kann sich niemand „B, C, A …“ merken.
 function mische(liste) {
@@ -132,14 +119,64 @@ function mische(liste) {
 }
 
 
-// Merkt sich im Browser, dass einmal zu Ende gespielt wurde.
-// Erst dann zeigt info.html die Lösungen.
-function merkeGespielt() {
-  try {
-    localStorage.setItem("lna-gespielt", "ja");
-  } catch (fehler) {
-    // Speichern nicht erlaubt: info.html ist dann ohnehin frei
+// ---------------------------------------------------------------------
+// HAUPTMENÜ auf dem Startbildschirm
+// Die Trainingsspiele (Liste MINISPIELE in szenen.js) sind erst frei,
+// wenn die Prüfung einmal gespielt wurde. Die Info-Seite ist immer frei,
+// dort sind nur die Lösungen gesperrt (siehe info.js).
+// ---------------------------------------------------------------------
+function zeigeMenue() {
+  const gespielt = wurdeGespielt();   // gemeinsam.js
+  element("menue-ueberschrift").textContent = TEXTE.menueUeberschrift;
+  zeigeText("menue-hinweis", gespielt ? "" : TEXTE.menueGesperrt);
+
+  // Alle Einträge: zuerst die Info-Seite, dann die Trainingsspiele
+  const eintraege = [
+    { titel: TEXTE.infoLink, beschreibung: TEXTE.infoBeschreibung, seite: "info.html", immerFrei: true },
+  ].concat(MINISPIELE);
+
+  const liste = element("menue-liste");
+  liste.replaceChildren();
+  for (const spiel of eintraege) {
+    const frei = gespielt || spiel.immerFrei === true;
+    // Freigeschaltet: ein Link. Gesperrt: ein grauer Kasten ohne Link.
+    const karte = document.createElement(frei ? "a" : "div");
+    karte.className = "menue-karte" + (frei ? "" : " gesperrt");
+    if (frei) {
+      karte.href = spiel.seite;
+    } else {
+      karte.setAttribute("aria-disabled", "true");
+    }
+
+    const titel = document.createElement("strong");
+    titel.textContent = spiel.titel;
+    const text = document.createElement("span");
+    text.textContent = spiel.beschreibung;
+    karte.append(titel, text);
+
+    // Persönlicher Rekord, falls schon einmal gespielt
+    const rekord = spiel.rekord ? ladeRekord(spiel.rekord) : null;
+    if (frei && rekord !== null) {
+      const zeile = document.createElement("span");
+      zeile.className = "menue-rekord";
+      zeile.textContent = TEXTE.rekord + " " + formatiereZeit(rekord);
+      karte.appendChild(zeile);
+    }
+    if (!frei) {
+      const zeile = document.createElement("span");
+      zeile.className = "menue-rekord";
+      zeile.textContent = TEXTE.menueGesperrtKarte;
+      karte.appendChild(zeile);
+    }
+    liste.appendChild(karte);
   }
+}
+
+// Zurück zum Hauptmenü (vom Endbildschirm oder nach einem Brand)
+function geheZumMenue() {
+  stoppeAlarm();
+  zeigeMenue();
+  zeigeBildschirm("start");
 }
 
 
@@ -327,7 +364,8 @@ function zeigeFeedback(antwort, regel, bonus) {
     zeigeText("feedback-brandtitel", TEXTE.brandTitel);
     zeigeText("feedback-brandtext", TEXTE.brandText);
     element("feedback-weiter").textContent = TEXTE.nochmalButton;
-    zeigeText("feedback-info-link", TEXTE.infoLink);
+    zeigeText("feedback-info-link", TEXTE.loesungenLink);
+    zeigeText("feedback-menue-button", TEXTE.menueButton);
   } else {
     feedback.classList.remove("brennt");
     element("feedback-ueberschrift").textContent = regel.ueberschrift;   // „Richtig!“ …
@@ -335,6 +373,7 @@ function zeigeFeedback(antwort, regel, bonus) {
     zeigeText("feedback-brandtext", "");
     element("feedback-weiter").textContent = TEXTE.weiterButton;
     zeigeText("feedback-info-link", "");
+    zeigeText("feedback-menue-button", "");
   }
 
   // Eigene Reaktion auf genau diese Antwort (nur wenn eingetragen)
@@ -433,7 +472,8 @@ function initialisiere() {
   element("text-warum").textContent = TEXTE.warum;
   element("ende-ueberschrift").textContent = TEXTE.endeUeberschrift;
   element("nochmal-button").textContent = TEXTE.nochmalButton;
-  zeigeText("ende-info-link", TEXTE.infoLink);   // Info-Seite erst nach dem Spielen
+  zeigeText("ende-info-link", TEXTE.loesungenLink);   // springt zu den Lösungen auf der Info-Seite
+  element("menue-button").textContent = TEXTE.menueButton;
 
   // Credits: jede Zeile als eigener Listenpunkt
   for (const zeile of CREDITS) {
@@ -450,7 +490,10 @@ function initialisiere() {
   element("feedback-weiter").addEventListener("click", weiterNachFeedback);
   element("nochmal-button").addEventListener("click", starteSpiel);
   element("ton-button").addEventListener("click", schalteTon);
+  element("menue-button").addEventListener("click", geheZumMenue);
+  element("feedback-menue-button").addEventListener("click", geheZumMenue);
 
+  zeigeMenue();
   zeigeBildschirm("start");
 }
 

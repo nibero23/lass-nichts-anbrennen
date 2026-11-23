@@ -19,8 +19,12 @@ Du bist neuer Azubi und triffst an deinem ersten Arbeitstag 13 Entscheidungen �
 | `ton.js` | Erzeugt die Töne für richtig, falsch und den Feueralarm direkt im Browser (keine Sounddateien) |
 | `bestenliste.js` | Speichert und zeigt die Bestenliste (online oder auf dem Gerät) |
 | `pruefung.js` | Prüft `szenen.js` auf Tippfehler und zeigt sie verständlich an |
-| `info.html` | Zweite Seite „Wissen zum Brandschutz“ mit allen Lösungen, erst nach dem Spielen freigeschaltet |
-| `info.js` | Sperrt die Info-Seite bis nach dem Spielen und baut die Lösungen aus `szenen.js` |
+| `gemeinsam.js` | Hilfsfunktionen für alle Seiten: Freischaltung, persönliche Rekorde, Zeitanzeige |
+| `suchbild.html` | Trainingsspiel „Finde die Mängel“ |
+| `suchbild.js` | Ablauf des Suchbilds: Antippen, Strafzeit, Tipp, Rekord |
+| `suchbild-zeichnung.js` | Die Zeichnung des Suchbilds (SVG aus Code) mit den 8 Mängeln |
+| `info.html` | Zweite Seite „Wissen zum Brandschutz“: immer frei, nur die Lösungen erst nach der Prüfung |
+| `info.js` | Zeigt die Lösungen erst nach der Prüfung und baut sie aus `szenen.js` |
 | `firebase-regeln.json` | Regeln für die Online-Bestenliste (siehe unten) |
 | `bilder/` | Animierte Szenen (`.svg`), auf Wunsch durch eigene Fotos ersetzbar |
 
@@ -42,6 +46,12 @@ Start → Szene (25 s Countdown) → Antwort ─┬─→ Feedback → nächste 
 - Bei einem Brand ist das Spiel vorbei. Der Bildschirm „Brand bricht aus!“ zeigt den Titel „Brandbeschleuniger“, die richtige Antwort und die Erklärung.
 - In die Bestenliste kommt nur, wer den Tag übersteht. Bei gleicher Punktzahl gewinnt, wer weniger Zeit gebraucht hat.
 - Nach jeder Antwort kommt ein kurzer Ton: hell und aufsteigend bei richtig, tief und absteigend bei falsch oder zu langsam. Beim Brand heult stattdessen der Feueralarm. Alle Töne lassen sich oben rechts mit „Ton aus“ abschalten.
+
+## Hauptmenü und Trainingsspiele
+
+Der Startbildschirm ist zugleich das Hauptmenü. Unter der Prüfung stehen die Info-Seite und die Trainingsspiele. Die Info-Seite ist immer frei. Die Trainingsspiele sind gesperrt, bis man die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hat, weil sie Antworten verraten. Jedes Trainingsspiel speichert einen persönlichen Rekord auf dem Gerät. Welche Spiele im Menü stehen, steht in `szenen.js` unter `MINISPIELE`.
+
+**Finde die Mängel (`suchbild.html`):** In einem gezeichneten Büro mit Flur stecken 8 Brandschutz-Mängel. Antippen behebt sie: Kartons werden weggeräumt, die Brandschutztür fällt zu, die Pflanze vor dem Feuerlöscher verschwindet. Daneben tippen kostet 5 Sekunden, ein Tipp 15 Sekunden. Gewertet wird die Zeit. Auf dem Handy ist das Bild breiter als der Bildschirm und lässt sich seitlich wischen, damit alles groß genug zum Antippen ist. Die Texte zu den Mängeln stehen in `szenen.js` unter `SUCHBILD`.
 
 ## Texte ändern
 
@@ -79,7 +89,7 @@ Was die Regeln erlauben: Jeder darf die Liste lesen und neue Einträge hinzufüg
 
 ## Info-Seite
 
-`info.html` zeigt Hintergrundwissen und alle Lösungen. Damit niemand vorher spickt, ist sie gesperrt, bis man einmal bis zum Feierabend gespielt hat oder ein Brand ausgebrochen ist. Der Link „Wissen zum Brandschutz und alle Lösungen“ erscheint erst dann. Gespeichert wird das im Browser (`localStorage`), es gilt also pro Gerät.
+`info.html` zeigt Hintergrundwissen und die Materialien der JWSL. Die Seite ist immer frei, damit man vor der Prüfung lernen kann. Nur der Abschnitt „Alle Situationen aus dem Spiel“ mit den Lösungen ist gesperrt, bis man die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hat. Am Ende der Prüfung springt der Link „Alle Lösungen ansehen“ direkt dorthin. Gespeichert wird das im Browser (`localStorage`), es gilt also pro Gerät.
 
 Die Texte stehen direkt in `info.html` zwischen `<p>` und `</p>` bzw. `<li>` und `</li>`. Der Abschnitt „Alle Situationen aus dem Spiel“ entsteht automatisch aus `szenen.js`.
 

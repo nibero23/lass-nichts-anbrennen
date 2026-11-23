@@ -21,19 +21,7 @@
     <h1 tabindex="-1">Wissen zum Brandschutz</h1>
     <p class="untertitel">Die Hintergründe zu den Situationen im Spiel</p>
 
-    <!-- Solange noch nicht gespielt wurde, ist nur dieser Kasten zu sehen.
-         info.js schaltet um, sobald im Browser „gespielt“ gespeichert ist. -->
-    <div id="gesperrt" class="kasten gesperrt" hidden>
-      <h2>Erst spielen, dann lesen!</h2>
-      <p>Hier stehen die Lösungen zum Spiel. Die Seite wird freigeschaltet, sobald du das Spiel einmal bis zum Feierabend gespielt hast oder ein Brand ausgebrochen ist.</p>
-      <a class="haupt-button" href="index.html">Zum Spiel</a>
-    </div>
-
-    <noscript>
-      <p class="fehler">Diese Seite braucht JavaScript. Bitte im Browser aktivieren.</p>
-    </noscript>
-
-    <div id="info-inhalt" hidden>
+    <div id="info-inhalt">
 
     <!-- Inhaltsverzeichnis: springt zu den Abschnitten weiter unten -->
     <nav class="inhalt" aria-label="Inhalt">
@@ -232,11 +220,22 @@
 
     <!-- ===== LÖSUNGEN AUS DEM SPIEL =====
          Diese Liste baut info.js automatisch aus szenen.js.
-         Ändert ihr dort einen Text, ändert er sich hier mit. -->
+         Ändert ihr dort einen Text, ändert er sich hier mit.
+         Sie erscheint erst, wenn die Prüfung einmal gespielt wurde. -->
     <section id="spiel" class="info-abschnitt">
       <h2>Alle Situationen aus dem Spiel</h2>
-      <p class="hinweis">Achtung, hier stehen die Lösungen. Spiel am besten zuerst selbst!</p>
-      <div id="szenen-liste" class="szenen-liste"></div>
+
+      <!-- Solange die Prüfung noch nicht gespielt wurde -->
+      <div id="loesungen-gesperrt" class="kasten gesperrt" hidden>
+        <h3>Erst die Prüfung, dann die Lösungen</h3>
+        <p>Die Lösungen siehst du hier, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
+        <a class="haupt-button" href="index.html">Zur Prüfung</a>
+      </div>
+
+      <div id="loesungen" hidden>
+        <p class="hinweis">Achtung, hier stehen die Lösungen.</p>
+        <div id="szenen-liste" class="szenen-liste"></div>
+      </div>
     </section>
 
 
@@ -283,10 +282,15 @@
     <a class="haupt-button" href="index.html">Zurück zum Spiel</a>
 
     </div><!-- Ende von info-inhalt -->
+
+    <noscript>
+      <p class="fehler">Die Lösungen brauchen JavaScript. Bitte im Browser aktivieren.</p>
+    </noscript>
   </main>
 
   <!-- szenen.js liefert die Texte für „Alle Situationen aus dem Spiel“ -->
   <script src="szenen.js"></script>
+  <script src="gemeinsam.js"></script>
   <script src="info.js"></script>
 </body>
 </html>

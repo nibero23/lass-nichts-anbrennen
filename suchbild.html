@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Finde die Mängel – Lass nichts anbrennen</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="suchbild-seite">
+
+  <!-- Statusleiste: Zurück, gefundene Mängel, Zeit, Ton -->
+  <header class="statusleiste">
+    <div class="statusleiste-innen">
+      <a class="zurueck-link" href="index.html">← Menü</a>
+      <div><span id="text-gefunden"></span> <strong id="gefunden-anzeige">0 / 8</strong></div>
+      <div><span id="text-zeit"></span> <strong id="zeit-gesamt" class="hitze-zahl">0:00 min</strong></div>
+      <button id="ton-button" class="ton-button" type="button"></button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Erscheint nur, wenn in szenen.js ein Tippfehler ist -->
+    <div id="fehler" class="fehler" role="alert" hidden></div>
+
+    <!-- Solange die Prüfung noch nicht gespielt wurde -->
+    <div id="gesperrt" class="kasten gesperrt" hidden>
+      <h2>Erst die Prüfung!</h2>
+      <p>Dieses Training wird freigeschaltet, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.</p>
+      <a class="haupt-button" href="index.html">Zur Prüfung</a>
+    </div>
+
+    <!-- ===== 1. START ===== -->
+    <section id="sb-start" class="bildschirm" hidden>
+      <h1 id="sb-titel" tabindex="-1"></h1>
+      <p id="sb-anleitung"></p>
+      <p id="sb-rekord" class="ende-punkte"></p>
+      <button id="sb-start-button" class="haupt-button" type="button"></button>
+    </section>
+
+    <!-- ===== 2. SUCHEN ===== -->
+    <section id="sb-spiel" class="bildschirm sb-spiel" hidden>
+      <h2 id="sb-spiel-titel" class="sr-nur" tabindex="-1"></h2>
+      <!-- Hier setzt suchbild.js die Zeichnung aus suchbild-zeichnung.js ein -->
+      <p id="sb-wischen" class="nur-handy bestenliste-hinweis"></p>
+      <div id="suchbild" class="suchbild"></div>
+      <button id="tipp-button" class="link-button" type="button"></button>
+      <!-- Erklärung zum zuletzt gefundenen Mangel -->
+      <div id="sb-meldung" class="kasten sb-meldung" aria-live="polite" hidden>
+        <h3 id="sb-meldung-titel"></h3>
+        <p id="sb-meldung-text"></p>
+      </div>
+      <ol id="sb-liste" class="sb-liste"></ol>
+    </section>
+
+    <!-- ===== 3. GESCHAFFT ===== -->
+    <section id="sb-ende" class="bildschirm" hidden>
+      <h2 id="sb-ende-titel" tabindex="-1"></h2>
+      <p id="sb-ende-zeit" class="ende-titel"></p>
+      <p id="sb-ende-rekord" class="ende-punkte"></p>
+      <button id="sb-nochmal" class="haupt-button" type="button"></button>
+      <a class="info-link" href="index.html">← Zum Hauptmenü</a>
+    </section>
+  </main>
+
+  <!-- Reihenfolge: Prüfung, Texte, Hilfsfunktionen, Töne, Zeichnung, Spiel -->
+  <script src="pruefung.js"></script>
+  <script src="szenen.js"></script>
+  <script src="gemeinsam.js"></script>
+  <script src="ton.js"></script>
+  <script src="suchbild-zeichnung.js"></script>
+  <script src="suchbild.js"></script>
+</body>
+</html>

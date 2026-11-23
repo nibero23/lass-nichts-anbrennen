@@ -113,8 +113,17 @@ const TEXTE = {
   endeUeberschrift: "Feierabend!",
   nochmalButton:    "Nochmal spielen",   // steht am Ende und nach einem Brand
 
-  // Link zur Info-Seite mit den Lösungen (nur am Ende und nach einem Brand)
-  infoLink: "Wissen zum Brandschutz und alle Lösungen",
+  // Link zur Info-Seite (im Menü, am Ende und nach einem Brand)
+  infoLink:         "Wissen zum Brandschutz",
+  infoBeschreibung: "Hintergrundwissen und Materialien der JWSL zum Lernen vor der Prüfung. Die Lösungen gibt es dort nach der Prüfung.",
+  loesungenLink:    "Alle Lösungen ansehen",   // am Ende und nach einem Brand
+
+  // Hauptmenü auf dem Startbildschirm
+  menueUeberschrift:  "Lernen und Training",
+  menueGesperrt:      "Die Trainingsspiele werden freigeschaltet, sobald du die Prüfung einmal bis zum Feierabend oder bis zum Brand gespielt hast.",
+  menueGesperrtKarte: "Gesperrt",
+  menueButton:        "Zum Hauptmenü",
+  rekord:             "Dein Rekord:",
 
   // Bestenliste
   bestenlisteUeberschrift: "Bestenliste",
@@ -126,6 +135,88 @@ const TEXTE = {
   hinweisLokal:     "Die Bestenliste wird nur auf diesem Gerät gespeichert.",
   bestenlisteLeer:  "Noch keine Einträge. Trag dich als Erstes ein!",
   bestenlisteFehler:"Die Bestenliste ist gerade nicht erreichbar. Versuch es später noch einmal.",
+};
+
+
+// ---------------------------------------------------------------------
+// TRAININGSSPIELE IM HAUPTMENÜ
+// Jedes Spiel ist eine eigene Seite. „rekord“ ist der Name, unter dem
+// der Browser den persönlichen Rekord speichert (bitte nicht ändern).
+// ---------------------------------------------------------------------
+const MINISPIELE = [
+  {
+    titel:        "Finde die Mängel",
+    beschreibung: "Suchbild: Im Büro stecken 8 Brandschutz-Mängel. Finde und behebe sie so schnell wie möglich.",
+    seite:        "suchbild.html",
+    rekord:       "lna-rekord-suchbild",
+  },
+];
+
+
+// ---------------------------------------------------------------------
+// SUCHBILD „FINDE DIE MÄNGEL“ (suchbild.html)
+// Die „id“ verbindet den Text mit der Stelle im Bild – bitte nicht ändern.
+// Titel und Erklärung dürft ihr frei umschreiben.
+// ---------------------------------------------------------------------
+const SUCHBILD = {
+  titel:        "Finde die Mängel",
+  anleitung:    "In diesem Büro stecken 8 Brandschutz-Mängel. Tippe sie an, um sie zu beheben. Die Zeit läuft! Ein falscher Tipper kostet 5 Sekunden, ein Tipp 15 Sekunden.",
+  startButton:  "Los geht's",
+  tippButton:   "Tipp (+15 s)",
+  wischHinweis: "Wische über das Bild, um alles zu sehen.",   // nur auf dem Handy sichtbar
+  gefunden:     "Gefunden",
+  zeit:         "Zeit",
+  keinMangel:   "Kein Mangel",
+  strafeText:   "+5 Sekunden",
+  endeUeberschrift: "Alle Mängel behoben!",
+  neuerRekord:  "Neuer Rekord!",
+  nochmal:      "Nochmal",
+
+  strafeFalsch: 5,    // Sekunden für einen Tipper daneben
+  strafeTipp:   15,   // Sekunden für einen Tipp
+
+  maengel: [
+    {
+      id:         "kartons",
+      titel:      "Kartons vor dem Notausgang",
+      erklaerung: "Fluchtwege und Notausgänge müssen in voller Breite frei bleiben. Kartons versperren den Weg und können selbst brennen.",
+    },
+    {
+      id:         "keil",
+      titel:      "Verkeilte Brandschutztür",
+      erklaerung: "Eine Brandschutztür hält Feuer und Rauch nur auf, wenn sie zufallen kann.",
+    },
+    {
+      id:         "steckdosen",
+      titel:      "Steckdosenleisten hintereinander",
+      erklaerung: "Hintereinander gesteckte Leisten mit Heizlüfter können überlasten und überhitzen.",
+    },
+    {
+      id:         "powerbank",
+      titel:      "Aufgeblähte Powerbank auf Papier",
+      erklaerung: "Ein beschädigter Akku kann jederzeit anfangen zu brennen. Nicht mehr benutzen, nicht auf Brennbarem lagern, an einer Akku-Sammelstelle abgeben.",
+    },
+    {
+      id:         "loescher",
+      titel:      "Zugestellter Feuerlöscher",
+      erklaerung: "Feuerlöscher müssen jederzeit gut sichtbar und frei erreichbar sein. Im Ernstfall zählt jede Sekunde.",
+    },
+    {
+      id:         "kerze",
+      titel:      "Brennende Kerze am Vorhang",
+      erklaerung: "Offenes Feuer direkt neben Vorhang und Papier: Zündquelle und brennbarer Stoff sind schon zusammen.",
+    },
+    {
+      id:         "schild",
+      titel:      "Verdecktes Rettungszeichen",
+      erklaerung: "Das grüne Rettungszeichen zeigt im Ernstfall den Weg nach draußen. Es darf nie verdeckt sein.",
+    },
+    {
+      id:         "akku",
+      titel:      "E-Bike-Akku lädt im Flur",
+      erklaerung: "Flure sind Fluchtwege. Akkus dort weder laden noch abstellen.",
+    },
+  ],
 };
 
 
